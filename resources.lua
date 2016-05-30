@@ -10,4 +10,14 @@ function resources.getImage(path)
 	return images[path]
 end
 
+function resources.getAnimation(path)
+	local f = love.filesystem.load(path)
+	return f()
+end
+
+function resources.getAnimator(path)
+	local f = love.filesystem.load(path)
+	return f()
+end
+
 return resources

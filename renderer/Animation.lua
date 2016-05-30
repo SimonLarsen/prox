@@ -3,7 +3,9 @@ local Renderer = require("prox.renderer.Renderer")
 
 local Animation = class("prox.renderer.Animation", Renderer)
 
-function Animation:initialize(animation)
+function Animation:initialize(path)
+	local animation = resources.getAnimation(path)
+
 	self._image = resources.getImage(animation.image)
 
 	local imgw = self._image:getWidth()

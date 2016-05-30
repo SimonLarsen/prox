@@ -4,12 +4,14 @@ local Animation = require("prox.renderer.Animation")
 
 local Animator = class("prox.renderer.Animator", Renderer)
 
-function Animator:initialize(animator)
+function Animator:initialize(path)
+	local animator = resources.getAnimator(path)
+
 	self._transitions = animator.transitions
 
 	self._animations = {}
 	for i,v in pairs(animator.states) do
-		self._animations[i] = Animation(resources.getAnimation(v))
+		self._animations[i] = Animation(v)
 	end
 
 	self._properties = {}

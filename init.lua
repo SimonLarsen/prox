@@ -10,19 +10,22 @@ local prox = {
 	load = function() end,
 	quit = function() end,
 
-	Animation = require("prox.Animation"),
-	Animator = require("prox.Animator"),
+	Animation = require("prox.renderer.Animation"),
+	Animator = require("prox.renderer.Animator"),
 	Entity = require("prox.Entity"),
 	gamestate = require("prox.hump.gamestate"),
 	JoystickBinding = require("prox.input.JoystickBinding"),
 	KeyboardBinding = require("prox.input.KeyboardBinding"),
 	resources = require("prox.resources"),
 	Scene = require("prox.Scene"),
+	Sprite = require("prox.renderer.Sprite"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer")
 }
 
 function love.load()
+	love.graphics.setDefaultFilter("nearest", "nearest")
+
 	prox.load()
 end
 
@@ -82,14 +85,22 @@ function love.run()
 		love.update(dt)
  
 		if love.graphics.isActive() then
-			love.graphics.clear(love.graphics.getBackgroundColor())
 			love.graphics.origin()
+
+			love.graphics.clear()
+			love.graphics.setCanvas(window.getCanvas())
+			love.graphics.clear(gamestate.current():getBackgroundColor())
 
 			love.draw()
 			love.gui()
 
-			love.graphics.present()
+			love.graphics.setCanvas()
+			love.graphics.push()
+			love.graphics.scale(window.getScale())
+			love.graphics.draw(canvas, 0, 0)
+			love.graphics.pop()
 
+			love.graphics.present()
 		end
  
 		love.timer.sleep(0.001)

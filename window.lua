@@ -8,7 +8,14 @@ window._vsync = true
 window._canvas = nil
 
 function window.apply()
-	love.window.setMode(window.getWidth(), window.getHeight(), {fullscreen=window.getFullscreen(), vsync=window.getVsync()})
+	love.window.setMode(
+		window.getWidth() * window.getScale(),
+		window.getHeight() * window.getScale(),
+		{
+			fullscreen = window.getFullscreen(),
+			vsync = window.getVsync()
+		}
+	)
 	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
 end
 

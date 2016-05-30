@@ -9,9 +9,11 @@ function Entity:initialize(name, x, y, z, r, sx, sy)
 	self.sy = sy or 1
 
 	self._name = name
+
 	self._scene = nil
 	self._collider = nil
 	self._alive = true
+	self._renderer = nil
 end
 
 function Entity:_update(dt, rt)
@@ -60,6 +62,14 @@ end
 
 function Entity:getScene()
 	return self._scene
+end
+
+function Entity:setRenderer(renderer)
+	self._renderer = renderer
+end
+
+function Entity:getRenderer()
+	return self._renderer
 end
 
 -- Overloable functions

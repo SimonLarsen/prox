@@ -1,8 +1,8 @@
 local resources = require("prox.resources")
-local Renderer = require("prox.Renderer")
-local Animation = require("prox.Animation")
+local Renderer = require("prox.renderer.Renderer")
+local Animation = require("prox.renderer.Animation")
 
-local Animator = class("prox.Animator", Renderer)
+local Animator = class("prox.renderer.Animator", Renderer)
 
 function Animator:initialize(animator)
 	self._transitions = animator.transitions

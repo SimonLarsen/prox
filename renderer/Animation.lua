@@ -1,13 +1,13 @@
 local resources = require("prox.resources")
-local Renderer = require("prox.Renderer")
+local Renderer = require("prox.renderer.Renderer")
 
-local Animation = class("prox.Animation", Renderer)
+local Animation = class("prox.renderer.Animation", Renderer)
 
 function Animation:initialize(animation)
 	self._image = resources.getImage(animation.image)
 
-	local imgw = image:getWidth()
-	local imgh = image:getHeight()
+	local imgw = self._image:getWidth()
+	local imgh = self._image:getHeight()
 
 	local fw = animation.fw
 	local fh = animation.fh

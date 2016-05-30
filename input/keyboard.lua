@@ -1,41 +1,33 @@
-local Keyboard = {}
+local keyboard = {}
 
 local state = {}
 state.down = {}
 state.pressed = {}
 state.released = {}
 
-function Keyboard.initialize()
-	
+function keyboard.wasPressed(k)
+	return state.pressed[k] == true
 end
 
-function Keyboard.wasPressed(k, consume)
-	local s = state.pressed[k] == true
-	if consume then
-		state.pressed[k] = false
-	end
-	return s
-end
-
-function Keyboard.wasReleased(k)
+function keyboard.wasReleased(k)
 	return state.released[k] == true
 end
 
-function Keyboard.isDown(k)
+function keyboard.isDown(k)
 	return state.down[k] == true
 end
 
-function Keyboard.keypressed(k)
+function keyboard.keypressed(k)
 	state.down[k] = true
 	state.pressed[k] = true
 end
 
-function Keyboard.keyreleased(k)
+function keyboard.keyreleased(k)
 	state.down[k] = false
 	state.released[k] = true
 end
 
-function Keyboard.clear()
+function keyboard.clear()
 	for i,v in pairs(state.pressed) do
 		state.pressed[i] = false
 	end
@@ -44,4 +36,4 @@ function Keyboard.clear()
 	end
 end
 
-return Keyboard
+return keyboard

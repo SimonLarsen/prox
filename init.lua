@@ -2,10 +2,13 @@ class = require("prox.middleclass.middleclass")
 require("prox.slam.slam")
 
 local gamestate = require("prox.hump.gamestate")
+local window = require("prox.window")
+local keyboard = require("prox.input.keyboard")
+local joystick = require("prox.input.joystick")
 
 local prox = {
 	load = function() end,
-	exit = function() end,
+	quit = function() end,
 
 	Animation = require("prox.Animation"),
 	Animator = require("prox.Animator"),
@@ -15,7 +18,7 @@ local prox = {
 	KeyboardBinding = require("prox.input.KeyboardBinding"),
 	resources = require("prox.resources"),
 	Scene = require("prox.Scene"),
-	screen = require("prox.screen"),
+	window = require("prox.window"),
 	timer = require("prox.hump.timer")
 }
 
@@ -35,8 +38,8 @@ function love.gui()
 	gamestate.current():gui()
 end
 
-function love.exit()
-	prox.exit()
+function love.quit()
+	return prox.quit()
 end
 
 function love.run()
@@ -44,12 +47,14 @@ function love.run()
 		love.math.setRandomSeed(os.time())
 	end
  
-	if love.load then love.load(arg) end
+	love.load(arg)
  
 	-- We don't want the first frame's dt to include time taken by love.load.
-	if love.timer then love.timer.step() end
+	love.timer.step()
  
 	local dt = 0
+
+	window.apply()
  
 	-- Main loop time.
 	while true do
@@ -58,33 +63,42 @@ function love.run()
 			love.event.pump()
 			for name, a,b,c,d,e,f in love.event.poll() do
 				if name == "quit" then
-					if not love.quit or not love.quit() then
+					if not love.quit() then
 						return a
 					end
 				end
 				love.handlers[name](a,b,c,d,e,f)
 			end
+
+			keyboard.clear()
+			joystick.clear()
 		end
  
 		-- Update dt, as we'll be passing it to update
-		if love.timer then
-			love.timer.step()
-			dt = love.timer.getDelta()
-		end
+		love.timer.step()
+		dt = love.timer.getDelta()
  
 		-- Call update and draw
-		if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
+		love.update(dt)
  
-		if love.graphics and love.graphics.isActive() then
+		if love.graphics.isActive() then
 			love.graphics.clear(love.graphics.getBackgroundColor())
 			love.graphics.origin()
-			if love.draw then love.draw() end
+
+			love.draw()
+			love.gui()
+
 			love.graphics.present()
+
 		end
  
-		if love.timer then love.timer.sleep(0.001) end
+		love.timer.sleep(0.001)
 	end
- 
 end
+
+function love.keypressed(k) keyboard.keypressed(k) end
+function love.keyreleased(k) keyboard.keyreleased(k) end
+function love.gamepadpressed(joy, k) joystick.keypressed(joy, k) end
+function love.gamepadreleased(joy, k) joystick.keyreleased(joy, k) end
 
 return prox

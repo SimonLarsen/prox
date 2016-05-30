@@ -9,6 +9,8 @@ function Entity:initialize(name, x, y, z, r, sx, sy)
 	self.sy = sy or 1
 
 	self._name = name
+	self._scene = nil
+	self._collider = nil
 	self._alive = true
 end
 
@@ -24,6 +26,12 @@ function Entity:_draw()
 	if self._renderer then
 		self._renderer:draw(self.x, self.y, self.z, self.r, self.sx, self.sy)
 	end
+
+	self:draw()
+end
+
+function Entity:_gui()
+	self:gui()
 end
 
 function Entity:setName(name)
@@ -42,8 +50,16 @@ function Entity:isAlive()
 	return self._alive
 end
 
+function Entity:setCollider(c)
+	self._collider = collider
+end
+
 function Entity:getCollider()
-	return self.collider
+	return self._collider
+end
+
+function Entity:getScene()
+	return self._scene
 end
 
 -- Overloable functions

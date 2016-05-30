@@ -1,11 +1,11 @@
-local screen = require("prox.screen")
+local window = require("prox.window")
 local sort = require("prox.algorithm.sort")
 local timer = require("prox.hump.timer")
 local Camera = require("prox.Camera")
 
 local Scene = class("prox.Scene")
 
-function Scene:initialize()
+function Scene:initialize(entities)
 	self._entities = {}
 	self._camera = Camera()
 	self._hasEntered = false
@@ -13,6 +13,15 @@ function Scene:initialize()
 	self._bgcolor = {0, 0, 0, 255}
 
 	timer.clear()
+
+	for i,v in ipairs(entities) do
+		table.insert(self._entities, v)
+		v.scene = self
+	end
+
+	for i,v in ipairs(self._entities) do
+		v:enter()
+	end
 end
 
 function Scene:update(dt)
@@ -38,7 +47,7 @@ function Scene:draw()
 	love.graphics.push()
 
 	-- Apply camera
-	local w, h = screen.getSize()
+	local w, h = window.getSize()
 	love.graphics.translate(w/2 - self:getCamera():getX(), h/2 - self:getCamera():getY())
 	love.graphics.scale(self:getCamera():getZoom())
 
@@ -54,7 +63,7 @@ function Scene:gui()
 	love.graphics.push()
 
 	for i,v in ipairs(self._entities) do
-		v:gui()
+		v:_gui()
 	end
 
 	love.graphics.pop()

@@ -1,3 +1,5 @@
+local serialize = require("prox.serialize")
+
 local resources = {}
 
 local images = {}
@@ -11,13 +13,11 @@ function resources.getImage(path)
 end
 
 function resources.getAnimation(path)
-	local f = love.filesystem.load(path)
-	return f()
+	return serialize.read(path)
 end
 
 function resources.getAnimator(path)
-	local f = love.filesystem.load(path)
-	return f()
+	return serialize.read(path)
 end
 
 return resources

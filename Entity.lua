@@ -1,14 +1,13 @@
 local Entity = class("prox.Entity")
 
 function Entity:initialize(name, x, y, z, r, sx, sy)
+	self._name = name
 	self.x = x or 0
 	self.y = y or 0
 	self.z = z or 0
 	self.r = r or 0
 	self.sx = sx or 1
 	self.sy = sy or 1
-
-	self._name = name
 
 	self._scene = nil
 	self._collider = nil
@@ -52,7 +51,7 @@ function Entity:isAlive()
 	return self._alive
 end
 
-function Entity:setCollider(c)
+function Entity:setCollider(collider)
 	self._collider = collider
 end
 

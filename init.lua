@@ -12,6 +12,7 @@ local prox = {
 
 	Animation = require("prox.renderer.Animation"),
 	Animator = require("prox.renderer.Animator"),
+	BoxCollider = require("prox.collider.BoxCollider"),
 	Entity = require("prox.Entity"),
 	gamestate = require("prox.hump.gamestate"),
 	JoystickBinding = require("prox.input.JoystickBinding"),

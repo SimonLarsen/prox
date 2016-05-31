@@ -1,6 +1,7 @@
 local window = require("prox.window")
 local sort = require("prox.algorithm.sort")
 local timer = require("prox.hump.timer")
+local collision = require("prox.collision")
 local Camera = require("prox.Camera")
 
 local Scene = class("prox.Scene")
@@ -31,6 +32,8 @@ function Scene:update(dt)
 		end
 	end
 
+	self:_checkCollisions(dt, dt)
+
 	timer.update(dt)
 
 	sort.insertionsort(self._entities, function(a,b) return a.z > b.z end)
@@ -39,6 +42,17 @@ function Scene:update(dt)
 		if self._entities[i]:isAlive() == false then
 			self._entities[i]:onRemove()
 			table.remove(self._entities, i)
+		end
+	end
+end
+
+function Scene:_checkCollisions(dt, rt)
+	for i=1,#self._entities do
+		for j=i+1,#self._entities do
+			if collision.check(self._entities[i], self._entities[j]) then
+				self._entities[i]:onCollide(self._entities[j], dt, rt)
+				self._entities[j]:onCollide(self._entities[i], dt, rt)
+			end
 		end
 	end
 end

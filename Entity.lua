@@ -43,7 +43,8 @@ function Entity:getName()
 	return self._name
 end
 
-function Entity:kill()
+--- Remove entity from scene.
+function Entity:remove()
 	self._alive = false
 end
 
@@ -59,10 +60,13 @@ function Entity:getCollider()
 	return self._collider
 end
 
+--- Get scene entity belongs to.
 function Entity:getScene()
 	return self._scene
 end
 
+--- Set renderer object for entity.
+-- Call without argument to remove renderer.
 function Entity:setRenderer(renderer)
 	self._renderer = renderer
 end

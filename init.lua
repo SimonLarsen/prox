@@ -6,24 +6,23 @@ local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
+local Scene = require("prox.Scene")
 
 local prox = {
 	load = function() end,
 	quit = function() end,
 
 	-- core modules
-
-	gamestate = require("prox.hump.gamestate"),
 	joystick = require("prox.input.joystick"),
 	keyboard = require("prox.input.keyboard"),
 	mouse = require("prox.input.mouse"),
 	resources = require("prox.resources"),
+	scene = require("prox.scene"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
 
 	-- Base classes
 	Entity = require("prox.Entity"),
-	Scene = require("prox.Scene"),
 
 	-- Renderers
 	Animation = require("prox.renderer.Animation"),
@@ -41,6 +40,8 @@ local prox = {
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
+
+	gamestate.switch(Scene())
 
 	prox.load()
 end

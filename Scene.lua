@@ -3,11 +3,13 @@ local sort = require("prox.algorithm.sort")
 local timer = require("prox.hump.timer")
 local collision = require("prox.collision")
 local Camera = require("prox.Camera")
+local Entity = require("prox.Entity")
 
 local Scene = class("prox.Scene")
 
 function Scene:initialize(entities)
 	self._entities = {}
+	self._pending_entities = {}
 	self._camera = Camera()
 	self._hasEntered = false
 
@@ -15,29 +17,41 @@ function Scene:initialize(entities)
 
 	timer.clear()
 
-	for i,v in ipairs(entities) do
-		table.insert(self._entities, v)
-		v._scene = self
-	end
-
-	for i,v in ipairs(self._entities) do
-		v:enter()
+	if entities then
+		self:add(entities)
 	end
 end
 
 function Scene:update(dt)
+	-- Add pending entities
+	for i,v in ipairs(self._pending_entities) do
+		v._scene = self
+		table.insert(self._entities, v)
+	end
+
+	for i,v in ipairs(self._pending_entities) do
+		v:enter()
+	end
+
+	self._pending_entities = {}
+
+	-- Update all entities
 	for i,v in ipairs(self._entities) do
 		if v:isAlive() then
 			v:_update(dt)
 		end
 	end
 
+	-- Do all vs. all collision detection
 	self:_checkCollisions(dt, dt)
 
+	-- Update all timers
 	timer.update(dt)
 
+	-- Sort entities based on z-coordinate
 	sort.insertionsort(self._entities, function(a,b) return a.z > b.z end)
 
+	-- Remove killed entities
 	for i=#self._entities, 1, -1 do
 		if self._entities[i]:isAlive() == false then
 			self._entities[i]:onRemove()
@@ -83,13 +97,28 @@ function Scene:gui()
 	love.graphics.pop()
 end
 
+--- Add new Entity to scene.
 function Scene:add(e)
-	table.insert(self._entities, e)
-	e.scene = self
-	e:enter()
-	return e
+	assert(type(e) == "table", "Argument to Scene:add() must be an Entity or table of entities.")
+	if e.isInstanceOf and e:isInstanceOf(Entity) then
+		table.insert(self._pending_entities, e)
+	elseif type(e) == "table" then
+		for i,v in ipairs(e) do
+			self:add(v)
+		end
+	else
+		error("Argument to Scene:add() must be an Entity or table of entities.")
+	end
 end
 
+--- Removes all entities in scene.
+function Scene:clear()
+	for i,v in ipairs(self._entities) do
+		v:remove()
+	end
+end
+
+--- Returns first found entity matching given name.
 function Scene:find(name)
 	for i,v in ipairs(self._entities) do
 		if v:getName() == name then
@@ -98,6 +127,7 @@ function Scene:find(name)
 	end
 end
 
+--- Returns table of all entities matching name.
 function Scene:findAll(name)
 	local t = {}
 	for i,v in ipairs(self._entities) do
@@ -106,10 +136,6 @@ function Scene:findAll(name)
 		end
 	end
 	return t
-end
-
-function Scene:clearEntities()
-	self._entities = {}
 end
 
 function Scene:getEntities()
@@ -121,12 +147,7 @@ function Scene:getCamera()
 end
 
 function Scene:setBackgroundColor(r, g, b, a)
-	self._bgcolor = {
-		r or 0,
-		g or 0,
-		b or 0,
-		a or 255
-	}
+	self._bgcolor = {r, g, b, a or 255}
 end
 
 function Scene:getBackgroundColor()

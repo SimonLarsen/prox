@@ -6,12 +6,12 @@ local KeyboardBinding = class("prox.input.KeyboardBinding", Binding)
 function KeyboardBinding:initialize()
 	Binding.initialize(self)
 
-	self.actions = {}
-	self.axes = {}
+	self._actions = {}
+	self._axes = {}
 end
 
 function KeyboardBinding:add(action, key)
-	self.actions[action] = key
+	self._actions[action] = key
 end
 
 function KeyboardBinding:addAxis(name, neg, pos)
@@ -19,20 +19,20 @@ function KeyboardBinding:addAxis(name, neg, pos)
 		neg = neg,
 		pos = pos
 	}
-	self.axes[name] = a
+	self._axes[name] = a
 end
 
-function KeyboardBinding:wasPressed(action, consume)
-	return keyboard.wasPressed(self.actions[action], consume)
+function KeyboardBinding:wasPressed(action)
+	return keyboard.wasPressed(self._actions[action])
 end
 
 function KeyboardBinding:isDown(action)
-	return keyboard.isDown(self.actions[action])
+	return keyboard.isDown(self._actions[action])
 end
 
 function KeyboardBinding:getAxis(name)
-	local neg = self:isDown(self.axes[name].neg) and 1 or 0
-	local pos = self:isDown(self.axes[name].pos) and 1 or 0
+	local neg = self:isDown(self._axes[name].neg) and 1 or 0
+	local pos = self:isDown(self._axes[name].pos) and 1 or 0
 
 	return pos - neg
 end

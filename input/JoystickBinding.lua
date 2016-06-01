@@ -8,26 +8,26 @@ JoystickBinding.DEFAULT_DEADZONE = 0.0
 function JoystickBinding:initialize(joy, deadzone)
 	Binding.initialize(self)
 
-	self.joy = joy
-	self.deadzone = deadzone or JoystickBinding.DEFAULT_DEADZONE
-	self.actions = {}
+	self._joy = joy
+	self._deadzone = deadzone or JoystickBinding.DEFAULT_DEADZONE
+	self._actions = {}
 end
 
 function JoystickBinding:add(action, key)
-	self.actions[action] = key
+	self._actions[action] = key
 end
 
-function JoystickBinding:wasPressed(action, consume)
-	return joystick.wasPressed(self.joy, self.actions[action], consume)
+function JoystickBinding:wasPressed(action)
+	return joystick.wasPressed(self._joy, self._actions[action])
 end
 
 function JoystickBinding:isDown(action)
-	return joystick.isDown(self.joy, self.actions[action])
+	return joystick.isDown(self._joy, self._actions[action])
 end
 
 function JoystickBinding:getAxis(name)
-	local v = joystick.getAxis(self.joy, name)
-	return math.abs(v) >= self.deadzone and v or 0
+	local v = joystick.getAxis(self._joy, name)
+	return math.abs(v) >= self._deadzone and v or 0
 end
 
 return JoystickBinding

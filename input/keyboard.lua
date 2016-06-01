@@ -1,9 +1,10 @@
 local keyboard = {}
 
-local state = {}
-state.down = {}
-state.pressed = {}
-state.released = {}
+local state = {
+	down = {},
+	pressed = {},
+	released = {}
+}
 
 function keyboard.wasPressed(k)
 	return state.pressed[k] == true

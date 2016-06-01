@@ -4,24 +4,39 @@ require("prox.slam.slam")
 local gamestate = require("prox.hump.gamestate")
 local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
+local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
 
 local prox = {
 	load = function() end,
 	quit = function() end,
 
+	-- core modules
+
+	gamestate = require("prox.hump.gamestate"),
+	joystick = require("prox.input.joystick"),
+	keyboard = require("prox.input.keyboard"),
+	mouse = require("prox.input.mouse"),
+	resources = require("prox.resources"),
+	window = require("prox.window"),
+	timer = require("prox.hump.timer"),
+
+	-- Base classes
+	Entity = require("prox.Entity"),
+	Scene = require("prox.Scene"),
+
+	-- Renderers
 	Animation = require("prox.renderer.Animation"),
 	Animator = require("prox.renderer.Animator"),
-	BoxCollider = require("prox.collider.BoxCollider"),
-	Entity = require("prox.Entity"),
-	gamestate = require("prox.hump.gamestate"),
-	JoystickBinding = require("prox.input.JoystickBinding"),
-	KeyboardBinding = require("prox.input.KeyboardBinding"),
-	resources = require("prox.resources"),
-	Scene = require("prox.Scene"),
 	Sprite = require("prox.renderer.Sprite"),
-	window = require("prox.window"),
-	timer = require("prox.hump.timer")
+
+	-- Colliders
+	BoxCollider = require("prox.collider.BoxCollider"),
+
+	-- Input
+	KeyboardBinding = require("prox.input.KeyboardBinding"),
+	MouseBinding = require("prox.input.MouseBinding"),
+	JoystickBinding = require("prox.input.JoystickBinding")
 }
 
 function love.load()
@@ -73,9 +88,6 @@ function love.run()
 				end
 				love.handlers[name](a,b,c,d,e,f)
 			end
-
-			keyboard.clear()
-			joystick.clear()
 		end
  
 		-- Update dt, as we'll be passing it to update
@@ -84,6 +96,10 @@ function love.run()
  
 		-- Call update and draw
 		love.update(dt)
+
+		keyboard.clear()
+		mouse.clear()
+		joystick.clear()
  
 		if love.graphics.isActive() then
 			love.graphics.origin()
@@ -110,6 +126,8 @@ end
 
 function love.keypressed(k) keyboard.keypressed(k) end
 function love.keyreleased(k) keyboard.keyreleased(k) end
+function love.mousepressed(x, y, k) mouse.keypressed(k) end
+function love.mousereleased(x, y, k) mouse.keyreleased(k) end
 function love.gamepadpressed(joy, k) joystick.keypressed(joy, k) end
 function love.gamepadreleased(joy, k) joystick.keyreleased(joy, k) end
 

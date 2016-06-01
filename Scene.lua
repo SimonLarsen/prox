@@ -17,7 +17,7 @@ function Scene:initialize(entities)
 
 	for i,v in ipairs(entities) do
 		table.insert(self._entities, v)
-		v.scene = self
+		v._scene = self
 	end
 
 	for i,v in ipairs(self._entities) do

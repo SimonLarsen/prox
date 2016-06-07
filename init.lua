@@ -6,6 +6,7 @@ local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
+local scene = require("prox.scene")
 local Scene = require("prox.Scene")
 
 local prox = {
@@ -46,18 +47,6 @@ function love.load()
 	prox.load()
 end
 
-function love.update(dt)
-	gamestate.current():update(dt)
-end
-
-function love.draw()
-	gamestate.current():draw()
-end
-
-function love.gui()
-	gamestate.current():gui()
-end
-
 function love.quit()
 	return prox.quit()
 end
@@ -72,14 +61,19 @@ function love.run()
 	-- We don't want the first frame's dt to include time taken by love.load.
 	love.timer.step()
  
-	local dt = 0
+	local acc = 0
 
 	window.apply()
  
 	-- Main loop time.
 	while true do
-		-- Process events.
-		if love.event then
+		love.timer.step()
+		acc = acc + love.timer.getDelta()
+
+		local current_scene = gamestate.current()
+		local dt = 1/scene.getFPS()
+
+		while acc > dt do
 			love.event.pump()
 			for name, a,b,c,d,e,f in love.event.poll() do
 				if name == "quit" then
@@ -89,37 +83,32 @@ function love.run()
 				end
 				love.handlers[name](a,b,c,d,e,f)
 			end
+ 
+			-- Call update and draw
+			current_scene:update(dt)
+			acc = acc - dt
+
+			keyboard.clear()
+			mouse.clear()
+			joystick.clear()
 		end
  
-		-- Update dt, as we'll be passing it to update
-		love.timer.step()
-		dt = love.timer.getDelta()
- 
-		-- Call update and draw
-		love.update(dt)
+		love.graphics.origin()
 
-		keyboard.clear()
-		mouse.clear()
-		joystick.clear()
- 
-		if love.graphics.isActive() then
-			love.graphics.origin()
+		love.graphics.clear()
+		love.graphics.setCanvas(window.getCanvas())
+		love.graphics.clear(current_scene:getBackgroundColor())
 
-			love.graphics.clear()
-			love.graphics.setCanvas(window.getCanvas())
-			love.graphics.clear(gamestate.current():getBackgroundColor())
+		current_scene:draw()
+		current_scene:gui()
 
-			love.draw()
-			love.gui()
+		love.graphics.setCanvas()
+		love.graphics.push()
+		love.graphics.scale(window.getScale())
+		love.graphics.draw(canvas, 0, 0)
+		love.graphics.pop()
 
-			love.graphics.setCanvas()
-			love.graphics.push()
-			love.graphics.scale(window.getScale())
-			love.graphics.draw(canvas, 0, 0)
-			love.graphics.pop()
-
-			love.graphics.present()
-		end
+		love.graphics.present()
  
 		love.timer.sleep(0.001)
 	end

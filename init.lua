@@ -21,6 +21,8 @@ local prox = {
 	scene = require("prox.scene"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
+	math = require("prox.math"),
+	table = require("prox.table"),
 
 	-- Base classes
 	Entity = require("prox.Entity"),

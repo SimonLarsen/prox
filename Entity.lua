@@ -1,14 +1,16 @@
 local Entity = class("prox.Entity")
 
-function Entity:initialize(name, x, y, z, r, sx, sy)
-	self._name = name
-	self.x = x or 0
-	self.y = y or 0
-	self.z = z or 0
-	self.r = r or 0
-	self.sx = sx or 1
-	self.sy = sy or 1
+function Entity:initialize(...)
+	self._name = ""
+	self.x = 0
+	self.y = 0
+	self.z = 0
+	self.r = 0
+	self.sx = 1
+	self.sy = 1
 
+	self._init_args = {...}
+	self._has_entered = false
 	self._scene = nil
 	self._collider = nil
 	self._alive = true
@@ -73,6 +75,15 @@ end
 
 function Entity:getRenderer()
 	return self._renderer
+end
+
+function Entity:setPosition(x, y)
+	self.x, self.y = x, y
+end
+
+function Entity:move(dx, dy)
+	self.x = self.x + dx
+	self.y = self.y + dy
 end
 
 -- Overloable functions

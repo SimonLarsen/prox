@@ -9,11 +9,11 @@ local Scene = class("prox.Scene")
 
 function Scene:initialize(entities)
 	self._entities = {}
-	self._pending_entities = {}
 	self._camera = Camera()
 	self._hasEntered = false
 
 	self._bgcolor = {0, 0, 0, 255}
+	self._speed = 1
 
 	timer.clear()
 
@@ -23,22 +23,10 @@ function Scene:initialize(entities)
 end
 
 function Scene:update(dt)
-	-- Add pending entities
-	for i,v in ipairs(self._pending_entities) do
-		v._scene = self
-		table.insert(self._entities, v)
-	end
-
-	for i,v in ipairs(self._pending_entities) do
-		v:enter()
-	end
-
-	self._pending_entities = {}
-
 	-- Update all entities
 	for i,v in ipairs(self._entities) do
 		if v:isAlive() then
-			v:_update(dt)
+			v:_update(dt*self._speed, dt)
 		end
 	end
 
@@ -49,7 +37,11 @@ function Scene:update(dt)
 	timer.update(dt)
 
 	-- Sort entities based on z-coordinate
-	sort.insertionsort(self._entities, function(a,b) return a.z > b.z end)
+	sort.insertionsort(self._entities,
+		function(a,b)
+			return a.z == b.z and a.y < b.y or a.z > b.z
+		end
+	)
 
 	-- Remove killed entities
 	for i=#self._entities, 1, -1 do
@@ -101,7 +93,15 @@ end
 function Scene:add(e)
 	assert(type(e) == "table", "Argument to Scene:add() must be an Entity or table of entities.")
 	if e.isInstanceOf and e:isInstanceOf(Entity) then
-		table.insert(self._pending_entities, e)
+		table.insert(self._entities, e)
+		e._scene = self
+		if e._init_args then
+			e:enter(unpack(e._init_args))
+		else
+			e:enter()
+		end
+		e._init_args = nil
+		e._has_entered = true
 	elseif type(e) == "table" then
 		for i,v in ipairs(e) do
 			self:add(v)
@@ -109,6 +109,7 @@ function Scene:add(e)
 	else
 		error("Argument to Scene:add() must be an Entity or table of entities.")
 	end
+	return e
 end
 
 --- Removes all entities in scene.
@@ -136,6 +137,14 @@ function Scene:findAll(name)
 		end
 	end
 	return t
+end
+
+function Scene:setSpeed(s)
+	self._speed = s
+end
+
+function Scene:getSpeed()
+	return self._speed
 end
 
 function Scene:getEntities()

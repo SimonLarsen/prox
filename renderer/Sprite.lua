@@ -6,9 +6,6 @@ local Sprite = class("prox.renderer.Sprite", Renderer)
 function Sprite:initialize(path, ox, oy)
 	self._image = resources.getImage(path)
 
-	local imgw = self._image:getWidth()
-	local imgh = self._image:getHeight()
-
 	self._ox = ox or self._image:getWidth() / 2
 	self._oy = oy or self._image:getHeight() / 2
 end

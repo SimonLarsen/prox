@@ -68,7 +68,11 @@ function Scene:draw()
 
 	-- Apply camera
 	local w, h = window.getSize()
-	love.graphics.translate(w/2 - self:getCamera():getX(), h/2 - self:getCamera():getY())
+	local zoom = self:getCamera():getZoom()
+	love.graphics.translate(
+		window.getCanvasWidth()/2 - math.floor(self:getCamera():getX())*zoom,
+		window.getCanvasHeight()/2 - math.floor(self:getCamera():getY())*zoom
+	)
 	love.graphics.scale(self:getCamera():getZoom())
 
 	-- Draw entities

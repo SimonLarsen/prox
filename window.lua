@@ -7,6 +7,10 @@ window._fullscreen = false
 window._vsync = true 
 window._canvas = nil
 
+local update_canvas = function()
+	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
+end
+
 function window.apply()
 	love.window.setMode(
 		window.getWidth() * window.getScale(),
@@ -16,7 +20,7 @@ function window.apply()
 			vsync = window.getVsync()
 		}
 	)
-	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
+	update_canvas()
 end
 
 function window.getWidth()
@@ -35,7 +39,19 @@ function window.setSize(w, h)
 	window._width = w
 	window._height = h
 	window.apply()
-	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
+	update_canvas()
+end
+
+function window.getCanvasWidth()
+	return canvas:getWidth()
+end
+
+function window.getCanvasHeight()
+	return canvas:getHeight()
+end
+
+function window.getCanvasSize()
+	return window.getCanvasWidth(), window.getCanvasHeight()
 end
 
 function window.getScale()

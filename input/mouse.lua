@@ -3,6 +3,11 @@ local gamestate = require("prox.hump.gamestate")
 
 local mouse = {}
 
+local wheel = {
+	x = 0,
+	y = 0
+}
+
 local state = {
 	down = {},
 	pressed = {},
@@ -31,24 +36,33 @@ function mouse.keyreleased(k)
 	state.released[k] = true
 end
 
+function mouse.wheelmoved(x, y)
+	wheel.x = wheel.x + x
+	wheel.y = wheel.y + y
+end
+
 function mouse.getWorldPosition()
-	local mx, my = mouse.getPosition()
-	local cam = gamestate.current():getCamera()
-	return mx+cam:getX()-window.getWidth()/2, my+cam:getY()-window.getHeight()/2
+	return gamestate.current():getCamera():screenToWorld(mouse.getPosition())
 end
 
 function mouse.getPosition()
 	local mx, my = love.mouse.getPosition()
 	local sc = window.getScale()
-
 	return mx/sc, my/sc
 end
 
+function mouse.getAxis(name)
+	return wheel[name]
+end
+
 function mouse.clear()
-	for i,v in ipairs(state.pressed) do
+	wheel.x = 0
+	wheel.y = 0
+
+	for i,v in pairs(state.pressed) do
 		state.pressed[i] = false
 	end
-	for i,v in ipairs(state.released) do
+	for i,v in pairs(state.released) do
 		state.released[i] = false
 	end
 end

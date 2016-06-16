@@ -120,6 +120,7 @@ function love.keypressed(k) keyboard.keypressed(k) end
 function love.keyreleased(k) keyboard.keyreleased(k) end
 function love.mousepressed(x, y, k) mouse.keypressed(k) end
 function love.mousereleased(x, y, k) mouse.keyreleased(k) end
+function love.wheelmoved(x, y) mouse.wheelmoved(x, y) end
 function love.gamepadpressed(joy, k) joystick.keypressed(joy, k) end
 function love.gamepadreleased(joy, k) joystick.keyreleased(joy, k) end
 

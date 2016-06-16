@@ -17,6 +17,10 @@ function MouseBinding:wasPressed(action)
 	return mouse.wasPressed(self._actions[action])
 end
 
+function MouseBinding:wasReleased(action)
+	return mouse.wasReleased(self._actions[action])
+end
+
 function MouseBinding:isDown(action)
 	return mouse.isDown(self._actions[action])
 end

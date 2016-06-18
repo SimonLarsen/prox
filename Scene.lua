@@ -1,5 +1,5 @@
 local window = require("prox.window")
-local sort = require("prox.algorithm.sort")
+local sort = require("prox.algorithms.sort")
 local timer = require("prox.hump.timer")
 local collision = require("prox.collision")
 local Camera = require("prox.Camera")

@@ -123,22 +123,40 @@ function Scene:clear()
 	end
 end
 
---- Returns first found entity matching given name.
 function Scene:find(name)
-	for i,v in ipairs(self._entities) do
-		if v:getName() == name then
-			return v
+	if type(name) == "string" then
+		for i,v in ipairs(self._entities) do
+			if v:getName() == name then
+				return v
+			end
 		end
+	elseif type(name) == "table" then
+		for i,v in ipairs(self._entities) do
+			if v:isInstanceOf(name) then
+				return v
+			end
+		end
+	else
+		error("Cannot search entity with object of type " .. type(name))
 	end
 end
 
---- Returns table of all entities matching name.
 function Scene:findAll(name)
 	local t = {}
-	for i,v in ipairs(self._entities) do
-		if v:getName() == name then
-			table.insert(t, v)
+	if type(name) == "string" then
+		for i,v in ipairs(self._entities) do
+			if v:getName() == name then
+				table.insert(t, v)
+			end
 		end
+	elseif type(name) == "table" then
+		for i,v in ipairs(self._entities) do
+			if v:isInstanceOf(name) then
+				table.insert(t, v)
+			end
+		end
+	else
+		error("Cannot search entities with object of type " .. type(name))
 	end
 	return t
 end

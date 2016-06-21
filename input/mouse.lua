@@ -47,8 +47,8 @@ end
 
 function mouse.getPosition()
 	local mx, my = love.mouse.getPosition()
-	local sc = window.getScale()
-	return mx/sc, my/sc
+	local canvas_x, canvas_y, _, canvas_sx, canvas_sy = window._getCanvasParams()
+	return (mx - canvas_x) / canvas_sx, (my - canvas_y) / canvas_sy
 end
 
 function mouse.getAxis(name)

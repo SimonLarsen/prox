@@ -1,17 +1,45 @@
 local window = {}
 
-window._width = 1024
-window._height = 768
-window._scale = 1
-window._fullscreen = false
-window._vsync = true 
-window._canvas = nil
+local width = 1024
+local height = 768
+local scale = 1
+local fullscreen = false
+local fullscreen_mode = "scale" -- options: "scale", "fill" and "stretch"
+local vsync = true
+local canvas = nil
+local canvas_x = 0
+local canvas_y = 0
+local canvas_sx = 1
+local canvas_sy = 1
 
 local update_canvas = function()
 	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
 end
 
 function window.apply()
+	if window.getFullscreen() then
+		local desktop_width, desktop_height = love.window.getDesktopDimensions()
+
+		if fullscreen_mode == "scale" then
+			canvas_x = math.floor((desktop_width - width*window.getScale())/2)
+			canvas_y = math.floor((desktop_height - height*window.getScale())/2)
+			canvas_sx, canvas_sy = window.getScale(), window.getScale()
+		elseif fullscreen_mode == "fill" then
+			local sc = math.min(desktop_width / width, desktop_height / height)
+			canvas_x = math.floor((desktop_width - width*sc)/2)
+			canvas_y = math.floor((desktop_height - height*sc)/2)
+			canvas_sx = sc
+			canvas_sy = sc
+		elseif fullscreen_mode == "stretch" then
+			canvas_x, canvas_y = 0, 0
+			canvas_sx = desktop_width / width
+			canvas_sy = desktop_height / height
+		end
+	else
+		canvas_x, canvas_y = 0, 0
+		canvas_sx, canvas_sy = window.getScale(), window.getScale()
+	end
+
 	love.window.setMode(
 		window.getWidth() * window.getScale(),
 		window.getHeight() * window.getScale(),
@@ -24,11 +52,11 @@ function window.apply()
 end
 
 function window.getWidth()
-	return window._width
+	return width
 end
 
 function window.getHeight()
-	return window._height
+	return height
 end
 
 function window.getSize()
@@ -36,63 +64,60 @@ function window.getSize()
 end
 
 function window.setSize(w, h)
-	window._width = w
-	window._height = h
+	width = w
+	height = h
 	window.apply()
 	update_canvas()
 end
 
-function window.getCanvasWidth()
-	return canvas:getWidth()
-end
-
-function window.getCanvasHeight()
-	return canvas:getHeight()
-end
-
-function window.getCanvasSize()
-	return window.getCanvasWidth(), window.getCanvasHeight()
-end
-
 function window.getScale()
-	return window._scale
+	return scale
 end
 
 function window.setScale(s)
-	window._scale = s
+	scale = s
 	window.apply()
 end
 
 function window.getFullscreen()
-	return window._fullscreen
+	return fullscreen
 end
 
 function window.setFullscreen(f)
-	window._fullscreen = f
+	fullscreen = f
 	window.apply()
 end
 
+function window.setFullscreenMode(mode)
+	assert(mode == "scale" or mode == "fill" or mode == "stretch", "Unrecognized fullscreen mode. Options are: \"scale\", \"fill\" or \"stretch\"")
+	fullscreen_mode = mode
+end
+
 function window.toggleFullscreen()
-	window._fullscreen = not window._fullscreen
+	fullscreen = not fullscreen
 	window.apply()
 end
 
 function window.getVsync()
-	return window._vsync
+	return vsync
 end
 
 function window.setVsync(v)
-	window._vsync = v
+	vsync = v
 	window.apply()
 end
 
 function window.toggleVsync()
-	window._vsync = not window._vsync
+	vsync = not vsync
 	window.apply()
 end
 
-function window.getCanvas()
+function window._getCanvas()
 	return canvas
+end
+
+function window._getCanvasParams()
+	return canvas_x, canvas_y, 0, canvas_sx, canvas_sy
 end
 
 return window

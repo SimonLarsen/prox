@@ -86,31 +86,27 @@ function love.run()
 				love.handlers[name](a,b,c,d,e,f)
 			end
  
-			-- Call update and draw
 			current_scene:update(dt)
 			acc = acc - dt
+ 
+			love.graphics.origin()
+
+			love.graphics.clear()
+			love.graphics.setCanvas(window._getCanvas())
+			love.graphics.clear(current_scene:getBackgroundColor())
+
+			current_scene:draw()
+			current_scene:gui()
+
+			love.graphics.setCanvas()
+			love.graphics.draw(window._getCanvas(), window._getCanvasParams())
+
+			love.graphics.present()
 
 			keyboard.clear()
 			mouse.clear()
 			joystick.clear()
 		end
- 
-		love.graphics.origin()
-
-		love.graphics.clear()
-		love.graphics.setCanvas(window.getCanvas())
-		love.graphics.clear(current_scene:getBackgroundColor())
-
-		current_scene:draw()
-		current_scene:gui()
-
-		love.graphics.setCanvas()
-		love.graphics.push()
-		love.graphics.scale(window.getScale())
-		love.graphics.draw(canvas, 0, 0)
-		love.graphics.pop()
-
-		love.graphics.present()
  
 		love.timer.sleep(0.001)
 	end

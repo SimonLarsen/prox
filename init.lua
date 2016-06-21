@@ -17,12 +17,13 @@ local prox = {
 	gui = require("prox.gui"),
 	joystick = require("prox.input.joystick"),
 	keyboard = require("prox.input.keyboard"),
+	math = require("prox.math"),
 	mouse = require("prox.input.mouse"),
 	resources = require("prox.resources"),
 	scene = require("prox.scene"),
+	serialize = require("prox.serialize"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
-	math = require("prox.math"),
 	table = require("prox.table"),
 
 	-- Base classes

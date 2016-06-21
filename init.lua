@@ -14,6 +14,7 @@ local prox = {
 	quit = function() end,
 
 	-- core modules
+	gui = require("prox.gui"),
 	joystick = require("prox.input.joystick"),
 	keyboard = require("prox.input.keyboard"),
 	mouse = require("prox.input.mouse"),

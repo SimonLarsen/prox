@@ -4,6 +4,8 @@ local Renderer = require("prox.renderer.Renderer")
 local Animation = class("prox.renderer.Animation", Renderer)
 
 function Animation:initialize(path)
+	Renderer.initialize(self)
+
 	local animation = resources.getAnimation(path)
 
 	self._image = resources.getImage(animation.image)
@@ -27,8 +29,8 @@ function Animation:initialize(path)
 
 	self._frames = xframes * yframes
 	self._delay = animation.delay
-	self._ox = animation.ox or (fw/2)
-	self._oy = animation.oy or (fh/2)
+	self.ox = animation.ox or (fw/2)
+	self.oy = animation.oy or (fh/2)
 	self._speed = 1
 
 	self:reset()
@@ -52,8 +54,8 @@ function Animation:reset()
 	self._finished = false
 end
 
-function Animation:draw(x, y, z, r, sx, sy)
-	love.graphics.draw(self._image, self._quads[self._frame], x, y, r, sx, sy, self._ox, self._oy)
+function Animation:draw(x, y, z)
+	love.graphics.draw(self._image, self._quads[self._frame], x, y, self.r, self.sx, self.sy, self.ox, self.oy)
 end
 
 function Animation:setSpeed(speed)

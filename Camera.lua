@@ -47,4 +47,9 @@ function Camera:screenToWorld(x, y)
 	       y/self:getZoom() + self:getY() - window.getHeight()/2/self:getZoom()
 end
 
+function Camera:worldToScreen(x, y)
+	return x * self:getZoom() - self:getX() + window.getWidth()/2/self:getZoom(),
+	       y * self:getZoom() - self:getY() + window.getHeight()/2/self:getZoom()
+end
+
 return Camera

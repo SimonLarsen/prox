@@ -5,9 +5,6 @@ function Entity:initialize(...)
 	self.x = 0
 	self.y = 0
 	self.z = 0
-	self.r = 0
-	self.sx = 1
-	self.sy = 1
 
 	self._init_args = {...}
 	self._has_entered = false
@@ -28,8 +25,8 @@ function Entity:_update(dt, rt)
 end
 
 function Entity:_draw()
-	if self._renderer then
-		self._renderer:draw(self.x, self.y, self.z, self.r, self.sx, self.sy)
+	if self._renderer and self._renderer:isVisible() then
+		self._renderer:draw(self.x, self.y, self.z)
 	end
 
 	self:draw()

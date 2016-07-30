@@ -25,6 +25,7 @@ local prox = {
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
 	table = require("prox.table"),
+	time = require("prox.time"),
 
 	-- Base classes
 	Entity = require("prox.Entity"),
@@ -32,6 +33,7 @@ local prox = {
 	-- Renderers
 	Animation = require("prox.renderer.Animation"),
 	Animator = require("prox.renderer.Animator"),
+	MultiRenderer = require("prox.renderer.MultiRenderer"),
 	Sprite = require("prox.renderer.Sprite"),
 
 	-- Colliders

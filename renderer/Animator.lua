@@ -5,6 +5,8 @@ local Animation = require("prox.renderer.Animation")
 local Animator = class("prox.renderer.Animator", Renderer)
 
 function Animator:initialize(path)
+	Renderer.initialize(self)
+
 	local animator = resources.getAnimator(path)
 
 	self._transitions = animator.transitions
@@ -54,8 +56,8 @@ function Animator:update(dt)
 	end
 end
 
-function Animator:draw(x, y, z, r, sx, sy)
-	self._animations[self._state]:draw(x, y, z, r, sx, sy)
+function Animator:draw(x, y, z)
+	self._animations[self._state]:draw(x, y, z)
 end
 
 function Animator:setProperty(name, value)

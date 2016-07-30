@@ -37,6 +37,18 @@ function pmath.cap(x, a, b)
 	return math.min(math.max(x, a), b)
 end
 
+function pmath.wrap(x, a, b)
+	local y = x
+	local dist = b - a
+	while y < a do
+		y = y + dist
+	end
+	while y > b do
+		y = y - dist
+	end
+	return y
+end
+
 function pmath.lerp(a, b, t)
 	if t < 0 then return a end
 	if t > 1 then return b end

@@ -1,9 +1,8 @@
 local collision = {}
 
 function collision.check(a, b)
-	if a:getCollider() == nil or b:getCollider() == nil then
-		return false
-	end
+	if a:isEnabled() == false or b:isEnabled() == false
+	or a:getCollider() == nil or b:getCollider() == nil then return false end
 
 	if a:getCollider():getType() == "box" and b:getCollider():getType() == "box" then
 		return collision.checkBoxBox(a, b)
@@ -22,6 +21,20 @@ function collision.checkBoxBox(a, b)
 	end
 
 	return true
+end
+
+function collision.contains(o, x, y)
+	local c = o:getCollider()
+	if o:isEnabled() == false or c == nil then return false end
+
+	if c:getType() == "box" then
+		return math.abs((o.x + c:getOffsetX()) - x) <= c:getWidth()/2
+		and    math.abs((o.y + c:getOffsetY()) - y) <= c:getHeight()/2
+	else
+		error(string.format("Contains point check for \"%s\" no supported.", c:getType()))
+	end
+
+	return false
 end
 
 return collision

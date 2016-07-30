@@ -25,7 +25,7 @@ end
 function Scene:update(dt)
 	-- Update all entities
 	for i,v in ipairs(self._entities) do
-		if v:isAlive() then
+		if v:isEnabled() then
 			v:_update(dt*self._speed, dt)
 		end
 	end
@@ -53,12 +53,36 @@ function Scene:update(dt)
 end
 
 function Scene:_checkCollisions(dt, rt)
+	-- Check all vs all
 	for i=1,#self._entities do
 		for j=i+1,#self._entities do
 			if collision.check(self._entities[i], self._entities[j]) then
 				self._entities[i]:onCollide(self._entities[j], dt, rt)
 				self._entities[j]:onCollide(self._entities[i], dt, rt)
 			end
+		end
+	end
+
+	-- Check mouse events
+	local mx, my = prox.mouse.getWorldPosition()
+	local mcx, mcy = prox.mouse.getPosition()
+	for i,v in ipairs(self._entities) do
+		if collision.contains(v, mx, my) then
+			if not v._mouse_over then v:onMouseEnter() end
+
+			for button=1,3 do
+				if prox.mouse.wasPressed(button) then
+					v:onMouseDown(mcx, mcy, button)
+				end
+				if prox.mouse.wasReleased(button) then
+					v:onMouseUp(mcx, mcy, button)
+				end
+			end
+
+			v._mouse_over = true
+		else
+			if v._mouse_over then v:onMouseExit() end
+			v._mouse_over = false
 		end
 	end
 end
@@ -77,7 +101,9 @@ function Scene:draw()
 
 	-- Draw entities
 	for i,v in ipairs(self._entities) do
-		v:_draw()
+		if v:isEnabled() then
+			v:_draw()
+		end
 	end
 
 	love.graphics.pop()
@@ -87,7 +113,9 @@ function Scene:gui()
 	love.graphics.push()
 
 	for i,v in ipairs(self._entities) do
-		v:_gui()
+		if v:isEnabled() then
+			v:_gui()
+		end
 	end
 
 	love.graphics.pop()

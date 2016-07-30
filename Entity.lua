@@ -11,9 +11,11 @@ function Entity:initialize(...)
 
 	self._init_args = {...}
 	self._has_entered = false
+	self._mouse_over = false
 	self._scene = nil
 	self._collider = nil
 	self._alive = true
+	self._enabled = true
 	self._renderer = nil
 end
 
@@ -45,8 +47,17 @@ function Entity:getName()
 	return self._name
 end
 
+function Entity:setEnabled(e)
+	self._enabled = e
+end
+
+function Entity:isEnabled()
+	return self._enabled
+end
+
 --- Remove entity from scene.
 function Entity:remove()
+	self._enabled = false
 	self._alive = false
 end
 
@@ -105,10 +116,15 @@ function Entity:gui() end
 --- Called when entity is removed from scene.
 function Entity:onRemove() end
 
---- Called when collides with other entity.
+--- Called when entity collides with other entity.
 -- @param o Colliding entity.
 -- @param dt Delta time in game time.
 -- @param rt Delta time in real time.
 function Entity:onCollide(o, dt, rt) end
+
+function Entity:onMouseDown(x, y, button) end
+function Entity:onMouseUp(x, y, button) end
+function Entity:onMouseEnter() end
+function Entity:onMouseExit() end
 
 return Entity

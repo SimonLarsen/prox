@@ -14,16 +14,25 @@ local get_state = function(joy)
 	return state[joy]
 end
 
-function joystick.wasPressed(joy, k)
-	return get_state(joy).pressed[k] == true
+function joystick.wasPressed(joy, ...)
+	for i,v in ipairs({...}) do
+		if get_state(joy).pressed[v] then return true end
+	end
+	return false
 end
 
-function joystick.wasReleased(joy, k)
-	return get_state(joy).released[k] == true
+function joystick.wasReleased(joy, ...)
+	for i,v in ipairs({...}) do
+		if get_state(joy).released[v] then return true end
+	end
+	return false
 end
 
-function joystick.isDown(joy, k)
-	return get_state(joy).down[k] == true
+function joystick.isDown(joy, ...)
+	for i,v in ipairs({...}) do
+		if get_state(joy).down[k] then return true end
+	end
+	return false
 end
 
 function joystick.keypressed(joy, k)

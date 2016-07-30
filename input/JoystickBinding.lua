@@ -17,12 +17,18 @@ function JoystickBinding:add(action, key)
 	self._actions[action] = key
 end
 
-function JoystickBinding:wasPressed(action)
-	return joystick.wasPressed(self._joy, self._actions[action])
+function JoystickBinding:wasPressed(...)
+	for i,v in ipairs({...}) do
+		if joystick.wasPressed(self._joy, self._actions[v]) then return true end
+	end
+	return false
 end
 
-function JoystickBinding:isDown(action)
-	return joystick.isDown(self._joy, self._actions[action])
+function JoystickBinding:isDown(...)
+	for i,v in ipairs({...}) do
+		if joystick.isDown(self._joy, self._actions[action]) then return true end
+	end
+	return false
 end
 
 function JoystickBinding:getAxis(name)

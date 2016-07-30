@@ -13,16 +13,25 @@ function MouseBinding:add(action, key)
 	self._actions[action] = key
 end
 
-function MouseBinding:wasPressed(action)
-	return mouse.wasPressed(self._actions[action])
+function MouseBinding:wasPressed(...)
+	for i,v in ipairs({...}) do
+		if mouse.wasPressed(self._actions[v]) then return true end
+	end
+	return false
 end
 
-function MouseBinding:wasReleased(action)
-	return mouse.wasReleased(self._actions[action])
+function MouseBinding:wasReleased(...)
+	for i,v in ipairs({...}) do
+		if mouse.wasReleased(self._actions[v]) then return true end
+	end
+	return false
 end
 
-function MouseBinding:isDown(action)
-	return mouse.isDown(self._actions[action])
+function MouseBinding:isDown(...)
+	for i,v in ipairs({...}) do
+		if mouse.isDown(self._actions[v]) then return true end
+	end
+	return false
 end
 
 function MouseBinding:getWorldPosition()

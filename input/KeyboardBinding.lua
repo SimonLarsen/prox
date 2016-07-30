@@ -22,12 +22,18 @@ function KeyboardBinding:addAxis(name, neg, pos)
 	self._axes[name] = a
 end
 
-function KeyboardBinding:wasPressed(action)
-	return keyboard.wasPressed(self._actions[action])
+function KeyboardBinding:wasPressed(...)
+	for i,v in ipairs({...}) do
+		if keyboard.wasPressed(self._actions[action]) then return true end
+	end
+	return false
 end
 
-function KeyboardBinding:isDown(action)
-	return keyboard.isDown(self._actions[action])
+function KeyboardBinding:isDown(...)
+	for i,v in ipairs({...}) do
+		if keyboard.isDown(self._actions[action]) then return true end
+	end
+	return false
 end
 
 function KeyboardBinding:getAxis(name)

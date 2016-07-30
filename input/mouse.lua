@@ -14,16 +14,25 @@ local state = {
 	released = {}
 }
 
-function mouse.wasPressed(k)
-	return state.pressed[k] == true
+function mouse.wasPressed(...)
+	for i,v in ipairs({...}) do
+		if state.pressed[v] == true then return true end
+	end
+	return false
 end
 
-function mouse.wasReleased(k)
-	return state.released[k] == true
+function mouse.wasReleased(...)
+	for i,v in ipairs({...}) do
+		if state.released[v] == true then return true end
+	end
+	return false
 end
 
-function mouse.isDown(k)
-	return state.down[k] == true
+function mouse.isDown(...)
+	for i,v in ipairs({...}) do
+		if state.down[v] == true then return true end
+	end
+	return false
 end
 
 function mouse.keypressed(k)

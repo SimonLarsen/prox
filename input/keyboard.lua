@@ -6,16 +6,25 @@ local state = {
 	released = {}
 }
 
-function keyboard.wasPressed(k)
-	return state.pressed[k] == true
+function keyboard.wasPressed(...)
+	for i,v in ipairs({...}) do
+		if state.pressed[v] == true then return true end
+	end
+	return false
 end
 
-function keyboard.wasReleased(k)
-	return state.released[k] == true
+function keyboard.wasReleased(...)
+	for i,v in ipairs({...}) do
+		if state.released[v] == true then return true end
+	end
+	return false
 end
 
-function keyboard.isDown(k)
-	return state.down[k] == true
+function keyboard.isDown(...)
+	for i,v in ipairs({...}) do
+		if state.down[v] == true then return true end
+	end
+	return false
 end
 
 function keyboard.keypressed(k)

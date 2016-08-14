@@ -6,7 +6,7 @@ local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
-local scene = require("prox.scene")
+local game = require("prox.game")
 local Scene = require("prox.Scene")
 
 local prox = {
@@ -20,7 +20,7 @@ local prox = {
 	math = require("prox.math"),
 	mouse = require("prox.input.mouse"),
 	resources = require("prox.resources"),
-	scene = require("prox.scene"),
+	game = require("prox.game"),
 	serialize = require("prox.serialize"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
@@ -77,7 +77,7 @@ function love.run()
 		acc = acc + love.timer.getDelta()
 
 		local current_scene = gamestate.current()
-		local dt = 1/scene.getFPS()
+		local dt = 1/game.getFPS()
 
 		while acc > dt do
 			love.event.pump()

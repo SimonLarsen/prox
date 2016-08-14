@@ -2,7 +2,7 @@ local gamestate = require("prox.hump.gamestate")
 local Scene = require("prox.Scene")
 
 local game = {}
-local fps = 30
+local fps = 60
 
 function game.current()
 	return gamestate.current()

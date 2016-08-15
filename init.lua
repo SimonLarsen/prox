@@ -1,13 +1,11 @@
 class = require("prox.middleclass.middleclass")
 require("prox.slam.slam")
 
-local gamestate = require("prox.hump.gamestate")
 local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
-local game = require("prox.game")
-local Scene = require("prox.Scene")
+local gamestate = require("prox.gamestate")
 
 local prox = {
 	load = function() end,
@@ -20,7 +18,7 @@ local prox = {
 	math = require("prox.math"),
 	mouse = require("prox.input.mouse"),
 	resources = require("prox.resources"),
-	game = require("prox.game"),
+	gamestate = require("prox.gamestate"),
 	serialize = require("prox.serialize"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
@@ -48,7 +46,7 @@ local prox = {
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
-	gamestate.switch(Scene())
+	gamestate.init()
 
 	prox.load()
 end
@@ -61,57 +59,53 @@ function love.run()
 	if love.math then
 		love.math.setRandomSeed(os.time())
 	end
- 
-	love.load(arg)
- 
-	-- We don't want the first frame's dt to include time taken by love.load.
-	love.timer.step()
- 
-	local acc = 0
 
-	window.apply()
- 
+	love.load(arg)
+
+	-- We don't want the first frame's dt to include time taken by love.load.
+	if love.timer then love.timer.step() end
+	local dt = 0
+
 	-- Main loop time.
 	while true do
-		love.timer.step()
-		acc = acc + love.timer.getDelta()
-
-		local current_scene = gamestate.current()
-		local dt = 1/game.getFPS()
-
-		while acc > dt do
-			love.event.pump()
-			for name, a,b,c,d,e,f in love.event.poll() do
-				if name == "quit" then
-					if not love.quit() then
-						return a
-					end
+		-- Process events.
+		love.event.pump()
+		for name, a,b,c,d,e,f in love.event.poll() do
+			if name == "quit" then
+				if not love.quit or not love.quit() then
+					return a
 				end
-				love.handlers[name](a,b,c,d,e,f)
 			end
- 
-			current_scene:update(dt)
-			acc = acc - dt
- 
+			love.handlers[name](a,b,c,d,e,f)
+		end
+
+		-- Update dt, as we'll be passing it to update
+		love.timer.step()
+		dt = love.timer.getDelta()
+
+		-- Call update and draw
+		gamestate.current():update(dt)
+
+		keyboard.clear()
+		mouse.clear()
+		joystick.clear()
+
+		if love.graphics.isActive() then
 			love.graphics.origin()
 
 			love.graphics.clear()
 			love.graphics.setCanvas(window._getCanvas())
-			love.graphics.clear(current_scene:getBackgroundColor())
+			love.graphics.clear(gamestate.current():getBackgroundColor())
 
-			current_scene:draw()
-			current_scene:gui()
+			gamestate.current():draw()
+			gamestate.current():gui()
 
 			love.graphics.setCanvas()
 			love.graphics.draw(window._getCanvas(), window._getCanvasParams())
 
 			love.graphics.present()
-
-			keyboard.clear()
-			mouse.clear()
-			joystick.clear()
 		end
- 
+
 		love.timer.sleep(0.001)
 	end
 end

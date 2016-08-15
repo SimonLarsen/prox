@@ -88,13 +88,14 @@ function window.setFullscreen(f)
 	window.apply()
 end
 
+function window.toggleFullscreen()
+	fullscreen = not fullscreen
+	window.apply()
+end
+
 function window.setFullscreenMode(mode)
 	assert(mode == "scale" or mode == "fill" or mode == "stretch", "Unrecognized fullscreen mode. Options are: \"scale\", \"fill\" or \"stretch\"")
 	fullscreen_mode = mode
-end
-
-function window.toggleFullscreen()
-	fullscreen = not fullscreen
 	window.apply()
 end
 

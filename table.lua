@@ -23,6 +23,14 @@ function ptable.copy(t)
 	end
 end
 
+--- Inserts contents of table t2 into table t.
+function ptable.insert_all(t, t2)
+	for i,v in pairs(t2) do
+		table.insert(t, v)
+	end
+	return t
+end
+
 --- Generates integer sequence [a, b].
 function ptable.seq(a, b)
 	local t = {}
@@ -45,7 +53,7 @@ end
 
 function ptable.find(t, value)
 	local out = {}
-	for i,v in ipairs(t) do
+	for i,v in pairs(t) do
 		if v == value then
 			table.insert(out)
 		end
@@ -55,7 +63,7 @@ end
 
 function ptable.find_if(t, f)
 	local out = {}
-	for i,v in ipairs(t) do
+	for i,v in pairs(t) do
 		if f(v) then
 			table.insert(out, v)
 		end
@@ -65,7 +73,7 @@ end
 
 function ptable.count(t, value)
 	local count = 0
-	for i,v in ipairs(t) do
+	for i,v in pairs(t) do
 		if v == value then
 			count = count + 1
 		end
@@ -75,7 +83,7 @@ end
 
 function ptable.count_if(t, f)
 	local count = 0
-	for i,v in ipairs(t) do
+	for i,v in pairs(t) do
 		if f(v) then
 			count = count + 1
 		end

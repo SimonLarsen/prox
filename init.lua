@@ -25,8 +25,10 @@ local prox = {
 	table = require("prox.table"),
 	time = require("prox.time"),
 
-	-- Base classes
+	-- Core classes
 	Entity = require("prox.Entity"),
+	Color = require("prox.Color"),
+	GUIStyle = require("prox.gui.GUIStyle"),
 
 	-- Renderers
 	Animation = require("prox.renderer.Animation"),
@@ -47,6 +49,7 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	gamestate.init()
+	prox.gui.setStyle(prox.GUIStyle())
 
 	prox.load()
 end
@@ -86,10 +89,6 @@ function love.run()
 		-- Call update and draw
 		gamestate.current():update(dt)
 
-		keyboard.clear()
-		mouse.clear()
-		joystick.clear()
-
 		if love.graphics.isActive() then
 			love.graphics.origin()
 
@@ -105,6 +104,10 @@ function love.run()
 
 			love.graphics.present()
 		end
+
+		keyboard.clear()
+		mouse.clear()
+		joystick.clear()
 
 		love.timer.sleep(0.001)
 	end

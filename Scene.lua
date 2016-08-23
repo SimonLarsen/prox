@@ -213,4 +213,12 @@ function Scene:getBackgroundColor()
 	return self._bgcolor
 end
 
+function Scene:sendMessage(method, ...)
+	for i,v in ipairs(self:getEntities()) do
+		if v[method] and type(v[method]) == "function" then
+			v[method](v, ...)
+		end
+	end
+end
+
 return Scene

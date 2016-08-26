@@ -13,7 +13,7 @@ local mouse_over_rect = function(x, y, w, h)
 end
 
 local center_text = function(text, x, y, w, h)
-	local texty = y + (h-style.font:getHeight())/2
+	local texty = math.floor(y + (h-style.font:getHeight())/2)
 	love.graphics.setFont(style.font)
 	love.graphics.printf(text, x, texty, w, "center")
 end

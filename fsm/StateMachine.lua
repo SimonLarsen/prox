@@ -1,8 +1,15 @@
+local Stack = require("prox.containers.Stack")
+
 local StateMachine = class("prox.fsm.StateMachine")
 
-function StateMachine:initialize()
-	self._current = nil
+local call_if_exists = function(fn, ...)
+	if fn then
+		return fn(...)
+	end
+end
 
+function StateMachine:initialize()
+	self._current = Stack()
 	self._states = {}
 end
 
@@ -16,12 +23,10 @@ function StateMachine:addState(state, update, enter, leave)
 end
 
 function StateMachine:update(...)
-	if self._current == nil then return end
-	assert(self._states[self._current], string.format("State \"%s\" does not exist.", self._current))
+	if self._current:isEmpty() then return end
+	assert(self:currentState(), string.format("State \"%s\" does not exist.", self:currentState()))
 
-	if self._states[self._current].update then
-		self._states[self._current].update(...)
-	end
+	call_if_exists(self:currentState().update, ...)
 end
 
 function StateMachine:addTransition(from, to, fun)
@@ -31,38 +36,51 @@ function StateMachine:addTransition(from, to, fun)
 	self._states[from].transitions[to] = fun
 end
 
-function StateMachine:update(...)
-	if self._current then
-		local new_state = self._update[self._current](...)
-	end
-
-	if new_state then
-		self:setState(state)
-	end
-end
-
 function StateMachine:setState(state)
 	assert(self._states[state], string.format("State \"%s\" does not exist.", state))
-	if state == self._current then return end
 
 	if self:currentState() then
-		if self:currentState().leave then
-			self:currentState().leave()
-		end
+		call_if_exists(self:currentState().leave)
+		call_if_exists(self:currentState().transitions[state])
 
-		if self:currentState().transitions[state] then
-			self:currentState().transitions[state]()
-		end
+		self._current:pop()
 	end
 
-	self._current = state
-	if self:currentState().enter then
-		self:currentState().enter()
+	self._current:push(state)
+
+	call_if_exists(self:currentState().enter)
+end
+
+function StateMachine:pushState(state)
+	assert(self._states[state], string.format("State \"%s\" does not exist.", state))
+
+	if self:currentState() then
+		call_if_exists(self:currentState().leave)
+		call_if_exists(self:currentState().transitions[state])
 	end
+
+	self._current:push(state)
+
+	call_if_exists(self:currentState().enter)
+end
+
+function StateMachine:popState()
+	assert(self:currentState(), "Cannot pop empty StateMachine.")
+
+	call_if_exists(self:currentState().leave)
+
+	local old_state = self:currentState()
+
+	self._current:pop()
+	if not self._current:isEmpty() then
+		call_if_exists(old_state.transitions[self._current:pop()])
+	end
+
+	call_if_exists(self:currentState().enter)
 end
 
 function StateMachine:currentState()
-	return self._states[self._current]
+	return self._states[self._current:peek()]
 end
 
 return StateMachine

@@ -23,6 +23,14 @@ function ptable.copy(t)
 	end
 end
 
+--- Copies all entries in from into to.
+-- Does not perform deep copy of table entries.
+function ptable.copy_into(from, to)
+	for i,v in pairs(from) do
+		to[i] = ptable.copy(v)
+	end
+end
+
 --- Inserts contents of table t2 into table t.
 function ptable.insert_all(t, t2)
 	for i,v in pairs(t2) do

@@ -26,7 +26,7 @@ end
 
 function JoystickBinding:isDown(...)
 	for i,v in ipairs({...}) do
-		if joystick.isDown(self._joy, self._actions[action]) then return true end
+		if joystick.isDown(self._joy, self._actions[v]) then return true end
 	end
 	return false
 end

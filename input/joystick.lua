@@ -30,7 +30,7 @@ end
 
 function joystick.isDown(joy, ...)
 	for i,v in ipairs({...}) do
-		if get_state(joy).down[k] then return true end
+		if get_state(joy).down[v] then return true end
 	end
 	return false
 end
@@ -49,7 +49,7 @@ function joystick.getAxis(joy, name)
 	if joy > love.joystick.getJoystickCount() then
 		return 0
 	else
-		local joystick = love.joystick.getJoystick()[joy]
+		local joystick = love.joystick.getJoysticks()[joy]
 		return joystick:getGamepadAxis(name)
 	end
 end

@@ -6,6 +6,8 @@ function MultiRenderer:initialize(...)
 	Renderer.initialize(self)
 
 	self._renderers = {}
+	self._offsetx = {}
+	self._offsety = {}
 	for i,v in ipairs({...}) do
 		self:addRenderer(v)
 	end
@@ -14,7 +16,7 @@ end
 function MultiRenderer:draw(x, y, z)
 	for i,v in ipairs(self._renderers) do
 		if v:isVisible() then
-			v:draw(x, y, z)
+			v:draw(x + self._offsetx[i], y + self._offsety[i], z)
 		end
 	end
 end
@@ -25,8 +27,10 @@ function MultiRenderer:update(dt)
 	end
 end
 
-function MultiRenderer:addRenderer(renderer)
+function MultiRenderer:addRenderer(renderer, offsetx, offsety)
 	table.insert(self._renderers, renderer)
+	table.insert(self._offsetx, offsetx or 0)
+	table.insert(self._offsety, offsety or 0)
 end
 
 function MultiRenderer:getRenderer(index)

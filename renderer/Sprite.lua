@@ -13,7 +13,7 @@ function Sprite:initialize(path, ox, oy)
 end
 
 function Sprite:draw(x, y, z)
-	love.graphics.draw(self._image, x, y, self.r, self.sx, self.sy, self.ox, self.oy)
+	love.graphics.draw(self._image, math.floor(x), math.floor(y), self.r, self.sx, self.sy, self.ox, self.oy)
 end
 
 return Sprite

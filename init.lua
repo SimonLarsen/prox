@@ -47,6 +47,8 @@ local prox = {
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
+	love.graphics.setLineStyle("rough")
+	window.apply()
 
 	gamestate.init()
 	prox.gui.setStyle(prox.GUIStyle())

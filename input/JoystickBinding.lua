@@ -36,4 +36,8 @@ function JoystickBinding:getAxis(name)
 	return math.abs(v) >= self._deadzone and v or 0
 end
 
+function JoystickBinding:setVibration(left, right, duration)
+	joystick.setVibration(self._joy, left, right, duration)
+end
+
 return JoystickBinding

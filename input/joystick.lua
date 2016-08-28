@@ -54,6 +54,11 @@ function joystick.getAxis(joy, name)
 	end
 end
 
+function joystick.setVibration(joy, left, right, duration)
+	local joystick = love.joystick.getJoysticks()[joy]
+	joystick:setVibration(left, right, duration)
+end
+
 function joystick.clear()
 	for joy=1,#state do
 		for i,v in pairs(state[joy].pressed) do

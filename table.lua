@@ -99,4 +99,12 @@ function ptable.count_if(t, f)
 	return count
 end
 
+function ptable.sub(t, first, last)
+	local out = {}
+	for i=first, last do
+		table.insert(out, t[i])
+	end
+	return out
+end
+
 return ptable

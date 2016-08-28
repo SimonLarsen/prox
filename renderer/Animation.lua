@@ -31,6 +31,8 @@ function Animation:initialize(path)
 	self._delay = animation.delay
 	self.ox = animation.ox or (fw/2)
 	self.oy = animation.oy or (fh/2)
+	self.sx = animation.sx or 1
+	self.sy = animation.sy or 1
 	self._speed = 1
 
 	self:reset()

@@ -61,6 +61,7 @@ function Animator:draw(x, y, z)
 end
 
 function Animator:setProperty(name, value)
+	assert(self._properties[name], string.format("Property \"%s\" does not exist.", name))
 	self._properties[name].value = value
 end
 

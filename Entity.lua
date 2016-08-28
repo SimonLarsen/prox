@@ -26,7 +26,9 @@ end
 
 function Entity:_draw()
 	if self._renderer and self._renderer:isVisible() then
+		love.graphics.setShader(self._renderer:getShader())
 		self._renderer:draw(self.x, self.y, self.z)
+		love.graphics.setShader()
 	end
 
 	self:draw()

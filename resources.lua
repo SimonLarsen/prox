@@ -30,4 +30,11 @@ function resources.getFont(path, size)
 	return fonts[key]
 end
 
+function resources.getImageFont(path, glyphs, spacing)
+	if fonts[path] == nil then
+		fonts[path] = love.graphics.newImageFont(path, glyphs, spacing or 2)
+	end
+	return fonts[path]
+end
+
 return resources

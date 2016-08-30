@@ -4,6 +4,7 @@ local resources = {}
 
 local images = {}
 local fonts = {}
+local sounds = {}
 
 function resources.getImage(path)
 	if images[path] == nil then
@@ -35,6 +36,13 @@ function resources.getImageFont(path, glyphs, spacing)
 		fonts[path] = love.graphics.newImageFont(path, glyphs, spacing or 2)
 	end
 	return fonts[path]
+end
+
+function resources.getSound(path)
+	if sounds[path] == nil then
+		sounds[path] = love.audio.newSource(path, "static")
+	end
+	return sounds[path]
 end
 
 return resources

@@ -39,7 +39,7 @@ end
 
 function pmath.wrap(x, a, b)
 	local y = x
-	local dist = b - a
+	local dist = b - a + 1
 	while y < a do
 		y = y + dist
 	end

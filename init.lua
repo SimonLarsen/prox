@@ -42,7 +42,8 @@ local prox = {
 	-- Input
 	KeyboardBinding = require("prox.input.KeyboardBinding"),
 	MouseBinding = require("prox.input.MouseBinding"),
-	JoystickBinding = require("prox.input.JoystickBinding")
+	JoystickBinding = require("prox.input.JoystickBinding"),
+	MultiBinding = require("prox.input.MultiBinding")
 }
 
 function love.load()

@@ -24,6 +24,13 @@ function JoystickBinding:wasPressed(...)
 	return false
 end
 
+function JoystickBinding:wasReleased(...)
+	for i,v in ipairs({...}) do
+		if joystick.wasReleased(self._joy, self._actions[v]) then return true end
+	end
+	return false
+end
+
 function JoystickBinding:isDown(...)
 	for i,v in ipairs({...}) do
 		if joystick.isDown(self._joy, self._actions[v]) then return true end

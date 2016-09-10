@@ -29,6 +29,13 @@ function KeyboardBinding:wasPressed(...)
 	return false
 end
 
+function KeyboardBinding:wasReleased(...)
+	for i,v in ipairs({...}) do
+		if keyboard.wasPressed(self._actions[v]) then return true end
+	end
+	return false
+end
+
 function KeyboardBinding:isDown(...)
 	for i,v in ipairs({...}) do
 		if keyboard.isDown(self._actions[v]) then return true end

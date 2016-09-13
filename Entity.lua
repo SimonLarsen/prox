@@ -14,6 +14,7 @@ function Entity:initialize(...)
 	self._alive = true
 	self._enabled = true
 	self._renderer = nil
+	self._stay_alive = false
 end
 
 function Entity:_update(dt, rt)
@@ -94,6 +95,10 @@ end
 function Entity:move(dx, dy)
 	self.x = self.x + dx
 	self.y = self.y + dy
+end
+
+function Entity:keepAlive()
+	return false
 end
 
 -- Overloable functions

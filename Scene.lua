@@ -147,7 +147,9 @@ end
 --- Removes all entities in scene.
 function Scene:clear()
 	for i,v in ipairs(self._entities) do
-		v:remove()
+		if v.keepAlive == nil or not v.keepAlive() then
+			v:remove()
+		end
 	end
 end
 

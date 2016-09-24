@@ -56,7 +56,8 @@ function Scene:_checkCollisions(dt, rt)
 	-- Check all vs all
 	for i=1,#self._entities do
 		for j=i+1,#self._entities do
-			if collision.check(self._entities[i], self._entities[j]) then
+			if self._entities[i]:isAlive() and self._entities[j]:isAlive()
+			and collision.check(self._entities[i], self._entities[j]) then
 				self._entities[i]:onCollide(self._entities[j], dt, rt)
 				self._entities[j]:onCollide(self._entities[i], dt, rt)
 			end

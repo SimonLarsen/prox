@@ -87,7 +87,7 @@ function love.run()
 
 		-- Update dt, as we'll be passing it to update
 		love.timer.step()
-		dt = love.timer.getDelta()
+		dt = math.min(love.timer.getDelta(), window._getMaxDelta())
 
 		-- Call update and draw
 		gamestate.current():update(dt)

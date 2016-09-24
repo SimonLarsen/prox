@@ -11,6 +11,7 @@ local canvas_x = 0
 local canvas_y = 0
 local canvas_sx = 1
 local canvas_sy = 1
+local max_delta = 1/10
 
 local update_canvas = function()
 	canvas = love.graphics.newCanvas(window.getWidth(), window.getHeight())
@@ -131,6 +132,13 @@ end
 
 function window._getCanvasParams()
 	return canvas_x, canvas_y, 0, canvas_sx, canvas_sy
+end
+
+function window.setMaxDelta(m)
+	max_delta = m
+end
+function window._getMaxDelta()
+	return max_delta
 end
 
 return window

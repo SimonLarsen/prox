@@ -7,8 +7,8 @@ function BoxCollider:initialize(w, h, ox, oy)
 	
 	self._width = w
 	self._height = h
-	self._ox = ox or 0
-	self._oy = oy or 0
+	self.ox = ox or 0
+	self.oy = oy or 0
 end
 
 function BoxCollider:getWidth()
@@ -20,11 +20,16 @@ function BoxCollider:getHeight()
 end
 
 function BoxCollider:getOffsetX()
-	return self._ox
+	return self.ox
 end
 
 function BoxCollider:getOffsetY()
-	return self._oy
+	return self.oy
+end
+
+function BoxCollider:setOffset(ox, oy)
+	self.ox = ox or self.ox
+	self.oy = oy or self.oy
 end
 
 return BoxCollider

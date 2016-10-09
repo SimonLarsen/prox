@@ -52,6 +52,17 @@ function window.apply()
 	update_canvas()
 end
 
+function window.set(w, h, vs, sc, fs, fs_mode)
+	width = w
+	height = h
+	vsync = vs
+	scale = sc
+	fullscreen = fs
+	fullscreen_mode = fs_mode
+	window.apply()
+	update_canvas()
+end
+
 function window.getWidth()
 	return width
 end

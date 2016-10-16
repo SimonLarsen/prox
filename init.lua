@@ -103,7 +103,9 @@ function love.run()
 			gamestate.current():gui()
 
 			love.graphics.setCanvas()
+			love.graphics.setShader(window._getShader())
 			love.graphics.draw(window._getCanvas(), window._getCanvasParams())
+			love.graphics.setShader()
 
 			love.graphics.present()
 		end

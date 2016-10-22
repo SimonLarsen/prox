@@ -29,6 +29,7 @@ function Animation:initialize(path)
 
 	self._frames = xframes * yframes
 	self._delay = animation.delay
+	self._loop = animation.loop or false
 	self.ox = animation.ox or (fw/2)
 	self.oy = animation.oy or (fh/2)
 	self.sx = animation.sx or 1
@@ -44,8 +45,12 @@ function Animation:update(dt, entity)
 		self._time = 0
 		self._frame = self._frame + 1
 		if self._frame > self._frames then
-			self._frame = 1
 			self._finished = true
+			if self._loop then
+				self._frame = 1
+			else
+				self._frame = self._frames
+			end
 		end
 	end
 end
@@ -58,6 +63,10 @@ end
 
 function Animation:draw(x, y, z)
 	love.graphics.draw(self._image, self._quads[self._frame], math.floor(x), math.floor(y), self.r, self.sx, self.sy, self.ox, self.oy)
+end
+
+function Animation:setLoop(loop)
+	self._loop = loop
 end
 
 function Animation:setSpeed(speed)

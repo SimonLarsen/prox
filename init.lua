@@ -12,7 +12,6 @@ local prox = {
 	quit = function() end,
 
 	-- core modules
-	gui = require("prox.gui"),
 	joystick = require("prox.input.joystick"),
 	keyboard = require("prox.input.keyboard"),
 	math = require("prox.math"),
@@ -27,8 +26,6 @@ local prox = {
 
 	-- Core classes
 	Entity = require("prox.Entity"),
-	Color = require("prox.Color"),
-	GUIStyle = require("prox.gui.GUIStyle"),
 
 	-- Renderers
 	Animation = require("prox.renderer.Animation"),
@@ -52,7 +49,6 @@ function love.load()
 	window.apply()
 
 	gamestate.init()
-	prox.gui.setStyle(prox.GUIStyle())
 
 	prox.load()
 end

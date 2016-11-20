@@ -5,6 +5,7 @@ local resources = {}
 local images = {}
 local fonts = {}
 local sounds = {}
+local shaders = {}
 
 function resources.getImage(path)
 	if images[path] == nil then
@@ -43,6 +44,13 @@ function resources.getSound(path)
 		sounds[path] = love.audio.newSource(path, "static")
 	end
 	return sounds[path]
+end
+
+function resources.getShader(path)
+	if shaders[path] == nil then
+		shaders[path] = love.graphics.newShader(path)
+	end
+	return shaders[path]
 end
 
 return resources

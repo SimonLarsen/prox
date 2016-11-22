@@ -1,13 +1,24 @@
 local pmath = {}
 
-function pmath.movetowards(x, y, dt)
-	if math.abs(x - y) <= dt then
+function pmath.movetowards(x, y, step)
+	if math.abs(x - y) <= step then
 		return y
 	end
 	if x > y then
-		return x - dt
+		return x - step
 	else
-		return x + dt
+		return x + step
+	end
+end
+
+function pmath.movetowards2(x1, y1, x2, y2, step)
+	local xdist = x2 - x1
+	local ydist = y2 - y1
+	local dist = math.sqrt(xdist^2 + ydist^2)
+	if dist <= step then
+		return x2, y2
+	else
+		return x1 + xdist/dist*step, y1 + ydist/dist*step
 	end
 end
 

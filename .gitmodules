@@ -7,3 +7,6 @@
 [submodule "prox/middleclass"]
 	path = middleclass
 	url = https://github.com/kikito/middleclass.git
+[submodule "SUIT"]
+	path = SUIT
+	url = https://github.com/vrld/SUIT.git

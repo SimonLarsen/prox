@@ -33,6 +33,11 @@ function MultiRenderer:addRenderer(renderer, offsetx, offsety)
 	table.insert(self._offsety, offsety or 0)
 end
 
+function MultiRenderer:setOffset(index, offsetx, offsety)
+	self._offsetx[index] = offsetx
+	self._offsety[index] = offsety
+end
+
 function MultiRenderer:getRenderer(index)
 	return self._renderers[index]
 end

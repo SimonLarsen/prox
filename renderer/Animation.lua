@@ -46,7 +46,7 @@ end
 function Animation:update(dt, entity)
 	self._time = self._time + dt * self._speed
 	if self._time >= self._delay then
-		self._time = 0
+		self._time = self._time - self._delay
 		self._frame = self._frame + 1
 		if self._frame > self._frames then
 			self._finished = true

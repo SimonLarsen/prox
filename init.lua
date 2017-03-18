@@ -24,6 +24,7 @@ local prox = {
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
 	table = require("prox.table"),
+	string = require("prox.string"),
 	time = require("prox.time"),
 
 	-- Core classes

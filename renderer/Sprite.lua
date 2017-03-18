@@ -8,12 +8,12 @@ function Sprite:initialize(path, ox, oy)
 
 	self._image = resources.getImage(path)
 
-	self.ox = ox or self._image:getWidth() / 2
-	self.oy = oy or self._image:getHeight() / 2
+	self._ox = ox or self._image:getWidth() / 2
+	self._oy = oy or self._image:getHeight() / 2
 end
 
-function Sprite:draw(x, y, z)
-	love.graphics.draw(self._image, math.floor(x), math.floor(y), self.r, self.sx, self.sy, self.ox, self.oy)
+function Sprite:draw(x, y, z, r, sx, sy, ox, oy)
+	love.graphics.draw(self._image, math.floor(x), math.floor(y), self._r+(r or 0), self._sx*(sx or 1), self._sy*(sy or 1), self._ox+(ox or 0), self._oy+(oy or 0))
 end
 
 return Sprite

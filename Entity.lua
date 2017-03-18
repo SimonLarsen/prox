@@ -18,11 +18,11 @@ function Entity:initialize(...)
 end
 
 function Entity:_update(dt, rt)
+	self:update(dt, rt)
+
 	if self._renderer then
 		self._renderer:update(dt)
 	end
-
-	self:update(dt, rt)
 end
 
 function Entity:_draw()

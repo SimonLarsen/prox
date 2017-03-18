@@ -34,10 +34,10 @@ function Animation:initialize(path)
 	else
 		self._loop = true
 	end
-	self.ox = animation.ox or (fw/2)
-	self.oy = animation.oy or (fh/2)
-	self.sx = animation.sx or 1
-	self.sy = animation.sy or 1
+	self._ox = animation.ox or (fw/2)
+	self._oy = animation.oy or (fh/2)
+	self._sx = animation.sx or 1
+	self._sy = animation.sy or 1
 	self._speed = 1
 
 	self:reset()
@@ -65,8 +65,8 @@ function Animation:reset()
 	self._finished = false
 end
 
-function Animation:draw(x, y, z)
-	love.graphics.draw(self._image, self._quads[self._frame], math.floor(x), math.floor(y), self.r, self.sx, self.sy, self.ox, self.oy)
+function Animation:draw(x, y, z, r, sx, sy, ox, oy)
+	love.graphics.draw(self._image, self._quads[self._frame], math.floor(x), math.floor(y), self._r+(r or 0), self._sx*(sx or 1), self._sy*(sy or 1), self._ox+(ox or 0), self._oy+(oy or 0))
 end
 
 function Animation:setLoop(loop)

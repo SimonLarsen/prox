@@ -1,11 +1,11 @@
 local Renderer = class("prox.Renderer")
 
 function Renderer:initialize()
-	self.r = 0
-	self.sx = 1
-	self.sy = 1
-	self.ox = 0
-	self.oy = 0
+	self._r = 0
+	self._sx = 1
+	self._sy = 1
+	self._ox = 0
+	self._oy = 0
 
 	self._visible = true
 	self._shader = nil
@@ -20,17 +20,17 @@ function Renderer:setVisible(visible)
 end
 
 function Renderer:setRotation(r)
-	self.r = r
+	self._r = r
 end
 
 function Renderer:setScale(sx, sy)
-	self.sx = sx
-	self.sy = sy or sx
+	self._sx = sx
+	self._sy = sy or sx
 end
 
 function Renderer:setOrigin(ox, oy)
-	self.ox = ox
-	self.oy = oy
+	self._ox = ox
+	self._oy = oy
 end
 
 function Renderer:setShader(shader)
@@ -42,7 +42,7 @@ function Renderer:getShader()
 end
 
 -- Overloadable functions
-function Renderer:draw(x, y, z) end
+function Renderer:draw(x, y, z, r, sx, sy, ox, oy) end
 function Renderer:update(dt) end
 
 return Renderer

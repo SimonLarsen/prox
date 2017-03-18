@@ -13,10 +13,10 @@ function MultiRenderer:initialize(...)
 	end
 end
 
-function MultiRenderer:draw(x, y, z)
+function MultiRenderer:draw(x, y, z, r, sx, sy, ox, oy)
 	for i,v in ipairs(self._renderers) do
 		if v:isVisible() then
-			v:draw(x + self._offsetx[i], y + self._offsety[i], z)
+			v:draw(x + self._offsetx[i], y + self._offsety[i], z, r, sx, sy, ox, oy)
 		end
 	end
 end

@@ -32,11 +32,6 @@ function Animator:initialize(path)
 end
 
 function Animator:update(dt)
-	self._animations[self._state]:update(dt)
-	if self._animations[self._state]:isFinished() then
-		self:setProperty("_finished", true)
-	end
-
 	for i,v in pairs(self._transitions) do
 		if v.from == self._state then
 			local prop = self._properties[v.property]
@@ -54,10 +49,15 @@ function Animator:update(dt)
 			v.value = false
 		end
 	end
+
+	self._animations[self._state]:update(dt)
+	if self._animations[self._state]:isFinished() then
+		self:setProperty("_finished", true)
+	end
 end
 
 function Animator:draw(x, y, z)
-	self._animations[self._state]:draw(x, y, z)
+	self._animations[self._state]:draw(x, y, z, self._r, self._sx, self._sy, self._ox, self._oy)
 end
 
 function Animator:setProperty(name, value)

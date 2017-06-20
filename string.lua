@@ -20,4 +20,12 @@ function pstring.split(str, pat)
    return t
 end
 
+function pstring.startswith(s,prefix)
+    return string.sub(s, 1, string.len(prefix))==prefix
+end
+
+function pstring.endswith(s,suffix)
+    return suffix=='' or string.sub(s,-string.len(suffix))==suffix
+end
+
 return pstring

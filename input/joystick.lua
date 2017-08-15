@@ -60,13 +60,13 @@ function joystick.setVibration(joy, left, right, duration)
 end
 
 function joystick.clear()
-	for joy=1,#state do
-		for i,v in pairs(state[joy].pressed) do
-			state[joy].pressed[i] = false
+	for _, s in pairs(state) do
+		for i,v in pairs(s.pressed) do
+			s.pressed[i] = false
 		end
 
-		for i,v in pairs(state[joy].released) do
-			state[joy].released[i] = false
+		for i,v in pairs(s.released) do
+			s.released[i] = false
 		end
 	end
 end

@@ -4,6 +4,21 @@ local Animation = require("prox.renderer.Animation")
 
 local Animator = class("prox.renderer.Animator", Renderer)
 
+local match_state = function(value, query)
+	if type(query) == "string" then
+		return value == query
+	elseif type(query) == "table" then
+		for i,v in ipairs(query) do
+			if value == v then
+				return true
+			end
+		end
+		return false
+	else
+		error("Unknown state query. Must be string or table of strings.")
+	end
+end
+
 function Animator:initialize(path)
 	Renderer.initialize(self)
 
@@ -33,7 +48,7 @@ end
 
 function Animator:update(dt)
 	for i,v in pairs(self._transitions) do
-		if v.from == self._state then
+		if match_state(self._state, v.from) then
 			local prop = self._properties[v.property]
 			if (v.predicate and v.predicate(prop.value, v.value))
 			or (v.predicate == nil and prop.value == v.value) then

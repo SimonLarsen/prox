@@ -29,11 +29,7 @@ function Animation:initialize(path)
 
 	self._frames = xframes * yframes
 	self._delay = animation.delay
-	if animation.loop == false then
-		self._loop = false
-	else
-		self._loop = true
-	end
+	self._loop = animation.loop ~= false
 	self._ox = animation.ox or (fw/2)
 	self._oy = animation.oy or (fh/2)
 	self._sx = animation.sx or 1

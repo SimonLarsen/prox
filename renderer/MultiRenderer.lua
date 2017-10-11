@@ -42,4 +42,10 @@ function MultiRenderer:getRenderer(index)
 	return self._renderers[index]
 end
 
+function MultiRenderer:removeRenderer(index)
+	table.remove(self._renderers, index)
+	table.remove(self._offsetx, index)
+	table.remove(self._offsety, index)
+end
+
 return MultiRenderer

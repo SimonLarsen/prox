@@ -10,6 +10,7 @@ local gamestate = require("prox.gamestate")
 
 local prox = {
 	load = function() end,
+	update = function() end,
 	quit = function() end,
 
 	-- core modules
@@ -88,7 +89,10 @@ function love.run()
 		love.timer.step()
 		dt = math.min(love.timer.getDelta(), window._getMaxDelta())
 
-		-- Call update and draw
+		-- Call prox.update callback
+		prox.update(dt)
+
+		-- Call scene update and draw
 		gamestate.current():update(dt)
 
 		if love.graphics.isActive() then

@@ -28,4 +28,8 @@ function pstring.endswith(s,suffix)
     return suffix=='' or string.sub(s,-string.len(suffix))==suffix
 end
 
+function pstring.trim(s)
+  return s:gsub("^%s+", ""):gsub("%s+$", "")
+end
+
 return pstring

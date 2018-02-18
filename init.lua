@@ -1,12 +1,12 @@
-class = require("prox.middleclass.middleclass")
 require("prox.slam.slam")
-local suit = require("prox.SUIT")
+class = require("prox.middleclass.middleclass")
+local lovetoys = require("prox.lovetoys.lovetoys")
+lovetoys.initialize({globals = true, debug = true})
 
 local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
-local gamestate = require("prox.gamestate")
 
 local prox = {
 	load = function() end,
@@ -14,13 +14,11 @@ local prox = {
 	quit = function() end,
 
 	-- core modules
-	gui = suit,
 	joystick = require("prox.input.joystick"),
 	keyboard = require("prox.input.keyboard"),
 	math = require("prox.math"),
 	mouse = require("prox.input.mouse"),
 	resources = require("prox.resources"),
-	gamestate = require("prox.gamestate"),
 	serialize = require("prox.serialize"),
 	window = require("prox.window"),
 	timer = require("prox.hump.timer"),
@@ -51,8 +49,6 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
 	window.apply()
-
-	gamestate.init()
 
 	prox.load()
 end
@@ -92,19 +88,12 @@ function love.run()
 		-- Call prox.update callback
 		prox.update(dt)
 
-		-- Call scene update and draw
-		gamestate.current():update(dt)
-
 		if love.graphics.isActive() then
 			love.graphics.origin()
 
 			love.graphics.clear()
 			love.graphics.setCanvas(window._getCanvas())
-			love.graphics.clear(gamestate.current():getBackgroundColor())
-
-			gamestate.current():draw()
-			gamestate.current():gui()
-			suit.draw()
+			love.graphics.clear()
 
 			love.graphics.setCanvas()
 			love.graphics.setShader(window._getShader())
@@ -124,11 +113,10 @@ end
 
 function love.keypressed(k)
 	keyboard.keypressed(k)
-	suit.keypressed(k)
 end
 
 function love.textinput(t)
-	suit.textinput(t)
+
 end
 
 function love.keyreleased(k) keyboard.keyreleased(k) end
@@ -137,23 +125,5 @@ function love.mousereleased(x, y, k) mouse.keyreleased(k) end
 function love.wheelmoved(x, y) mouse.wheelmoved(x, y) end
 function love.gamepadpressed(joy, k) joystick.keypressed(joy:getID(), k) end
 function love.gamepadreleased(joy, k) joystick.keyreleased(joy:getID(), k) end
-
--- monkey patch suit core for prox mouse input
-local suit_core = require("prox.SUIT.core")
-local SUIT_NONE = {}
-function suit_core:enterFrame()
-	if not self.mouse_button_down then
-		self.active = nil
-	elseif self.active == nil then
-		self.active = SUIT_NONE
-	end
-
-	self.hovered_last, self.hovered = self.hovered, nil
-	local mx, my = prox.mouse.getPosition()
-	self:updateMouse(mx, my, prox.mouse.isDown(1))
-	self.key_down, self.textchar = nil, ""
-	self:grabKeyboardFocus(SUIT_NONE)
-	self.hit = nil
-end
 
 return prox

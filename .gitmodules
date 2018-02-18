@@ -10,3 +10,6 @@
 [submodule "SUIT"]
 	path = SUIT
 	url = https://github.com/vrld/SUIT.git
+[submodule "lovetoys"]
+	path = lovetoys
+	url = https://github.com/lovetoys/lovetoys.git

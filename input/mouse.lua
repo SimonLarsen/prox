@@ -60,6 +60,16 @@ function mouse.getPosition()
 	return (mx - canvas_x) / canvas_sx, (my - canvas_y) / canvas_sy
 end
 
+function mouse.getX()
+    local mx, my = mouse.getPosition()
+    return mx
+end
+
+function mouse.getY()
+    local mx, my = mouse.getPosition()
+    return my
+end
+
 function mouse.getAxis(name)
 	return wheel[name]
 end

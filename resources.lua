@@ -7,6 +7,8 @@ local fonts = {}
 local sounds = {}
 local shaders = {}
 
+resources.exists = love.filesystem.exists
+
 function resources.getImage(path)
 	if images[path] == nil then
 		assert(love.filesystem.exists(path), "Image file \"" .. path .. "\" not found.")
@@ -35,6 +37,8 @@ function resources.getFont(path, size)
 
 	return fonts[key]
 end
+
+resources.setFont = love.graphics.setFont
 
 function resources.getImageFont(path, glyphs, spacing)
 	if fonts[path] == nil then

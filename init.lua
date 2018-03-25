@@ -1,13 +1,12 @@
-require("prox.slam.slam")
 class = require("prox.middleclass.middleclass")
 local lovetoys = require("prox.lovetoys.lovetoys")
+lovetoys.initialize({globals = true, debug = true, middleclassPath = "prox.middleclass.middleclass"})
+require("prox.slam.slam")
 
 local window = require("prox.window")
 local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
-
-lovetoys.initialize({globals = true, debug = true, middleclassPath = "prox.middleclass.middleclass"})
 
 local prox = {
     load = function() end,
@@ -28,18 +27,13 @@ local prox = {
     timer = require("prox.hump.timer"),
     window = require("prox.window"),
 
-    -- Core classes
-    Entity = require("prox.Entity"),
+    -- Components
+    Transform = require("prox.components.core.Transform"),
+    Sprite = require("prox.components.graphics.Sprite"),
 
-    -- Renderers
-    Animation = require("prox.renderer.Animation"),
-    Animator = require("prox.renderer.Animator"),
-    MultiRenderer = require("prox.renderer.MultiRenderer"),
-    Sprite = require("prox.renderer.Sprite"),
-
-    -- Colliders
-    BoxCollider = require("prox.collider.BoxCollider"),
-
+    -- Systems
+    SpriteRenderer = require("prox.systems.graphics.SpriteRenderer"),
+    
     -- Input
     KeyboardBinding = require("prox.input.KeyboardBinding"),
     MouseBinding = require("prox.input.MouseBinding"),

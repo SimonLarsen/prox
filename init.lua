@@ -7,7 +7,7 @@ local keyboard = require("prox.input.keyboard")
 local mouse = require("prox.input.mouse")
 local joystick = require("prox.input.joystick")
 
-lovetoys.initialize({globals = true, debug = true})
+lovetoys.initialize({globals = true, debug = true, middleclassPath = "prox.middleclass.middleclass"})
 
 local prox = {
     load = function() end,

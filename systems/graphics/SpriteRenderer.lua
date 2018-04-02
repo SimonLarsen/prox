@@ -1,17 +1,23 @@
-local SpriteRenderer = class("prox.systems.graphics.SpriteRenderer", System)
+local SpriteRenderer = class("SpriteRenderer", System)
 
 function SpriteRenderer:initialize()
     System.initialize(self)
 end
 
 function SpriteRenderer:requires()
-    return {"prox.components.graphics.Sprite", "prox.components.core.Transform"}
+    return {"Sprite", "Transform"}
 end
 
 function SpriteRenderer:draw()
-    for _,e in pairs(self.targets) do
-        local t = e:get("prox.components.core.Transform")
-        local sprite = e:get("prox.components.graphics.Sprite")
+    local sorted = {}
+    for i,v in pairs(self.targets) do
+        table.insert(sorted, v)
+    end
+    table.sort(sorted, function(a, b) return a:get("Transform").z > b:get("Transform").z end)
+
+    for _,e in pairs(sorted) do
+        local t = e:get("Transform")
+        local sprite = e:get("Sprite")
 
         love.graphics.draw(sprite.image, t.x, t.y, t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
     end

@@ -1,4 +1,4 @@
-local Transform = class("prox.components.core.Transform")
+local Transform = class("Transform")
 
 function Transform:initialize(x, y, z, r, sx, sy)
     self.x = x or 0

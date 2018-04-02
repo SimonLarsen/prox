@@ -13,6 +13,9 @@ local prox = {
     update = function() end,
     quit = function() end,
 
+    engine = Engine(),
+    events = EventManager(),
+
     -- core modules
     gui = require("prox.SUIT"),
     joystick = require("prox.input.joystick"),
@@ -31,9 +34,6 @@ local prox = {
     Transform = require("prox.components.core.Transform"),
     Sprite = require("prox.components.graphics.Sprite"),
 
-    -- Systems
-    SpriteRenderer = require("prox.systems.graphics.SpriteRenderer"),
-    
     -- Input
     KeyboardBinding = require("prox.input.KeyboardBinding"),
     MouseBinding = require("prox.input.MouseBinding"),
@@ -46,6 +46,8 @@ function love.load()
     love.graphics.setLineStyle("rough")
     window.apply()
 
+    prox.engine:addSystem(require("prox.systems.graphics.SpriteRenderer")())
+    
     prox.load()
 end
 
@@ -83,6 +85,9 @@ function love.run()
 
         -- Call prox.update callback
         prox.update(dt)
+
+        -- Update timers and tweens
+        prox.timer.update(dt)
 
         if love.graphics.isActive() then
             love.graphics.origin()

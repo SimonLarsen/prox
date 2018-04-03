@@ -1,7 +1,7 @@
-[submodule "prox/slam"]
+[submodule "slam"]
 	path = slam
 	url = https://github.com/vrld/slam.git
-[submodule "prox/middleclass"]
+[submodule "middleclass"]
 	path = middleclass
 	url = https://github.com/kikito/middleclass.git
 [submodule "SUIT"]

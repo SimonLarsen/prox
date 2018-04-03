@@ -27,7 +27,6 @@ local prox = {
     string = require("prox.string"),
     table = require("prox.table"),
     time = require("prox.time"),
-    timer = require("prox.hump.timer"),
     window = require("prox.window"),
 
     -- Components
@@ -85,9 +84,6 @@ function love.run()
 
         -- Call prox.update callback
         prox.update(dt)
-
-        -- Update timers and tweens
-        prox.timer.update(dt)
 
         if love.graphics.isActive() then
             love.graphics.origin()

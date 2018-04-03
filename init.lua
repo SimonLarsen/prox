@@ -27,6 +27,7 @@ local prox = {
     string = require("prox.string"),
     table = require("prox.table"),
     time = require("prox.time"),
+    tween = require("prox.tween.tween"),
     window = require("prox.window"),
 
     -- Components

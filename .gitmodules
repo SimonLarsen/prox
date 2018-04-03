@@ -9,7 +9,7 @@
 	url = https://github.com/kikito/middleclass.git
 [submodule "SUIT"]
 	path = SUIT
-	url = https://github.com/vrld/SUIT.git
+	url = https://github.com/SimonLarsen/suit.git
 [submodule "lovetoys"]
 	path = lovetoys
 	url = https://github.com/lovetoys/lovetoys.git

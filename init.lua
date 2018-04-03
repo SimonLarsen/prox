@@ -84,7 +84,7 @@ function love.run()
         dt = math.min(love.timer.getDelta(), window._getMaxDelta())
 
         -- Call prox.update callback
-        prox.update(dt)
+        prox.engine:update(dt)
 
         if love.graphics.isActive() then
             love.graphics.origin()
@@ -93,7 +93,7 @@ function love.run()
             love.graphics.setCanvas(window._getCanvas())
             love.graphics.clear()
 
-            prox.draw()
+            prox.engine:draw()
             prox.gui.draw()
 
             love.graphics.setCanvas()

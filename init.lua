@@ -32,6 +32,7 @@ local prox = {
 
     -- Components
     Transform = require("prox.components.core.Transform"),
+    Tween = require("prox.components.timing.Tween"),
     Sprite = require("prox.components.graphics.Sprite"),
 
     -- Input
@@ -46,6 +47,7 @@ function love.load()
     love.graphics.setLineStyle("rough")
     window.apply()
 
+    prox.engine:addSystem(require("prox.systems.timing.TweenSystem")())
     prox.engine:addSystem(require("prox.systems.graphics.SpriteRenderer")())
     
     prox.load()

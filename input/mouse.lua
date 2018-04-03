@@ -1,5 +1,4 @@
 local window = require("prox.window")
-local gamestate = require("prox.hump.gamestate")
 
 local mouse = {}
 
@@ -48,10 +47,6 @@ end
 function mouse.wheelmoved(x, y)
 	wheel.x = wheel.x + x
 	wheel.y = wheel.y + y
-end
-
-function mouse.getWorldPosition()
-	return gamestate.current():getCamera():screenToWorld(mouse.getPosition())
 end
 
 function mouse.getPosition()

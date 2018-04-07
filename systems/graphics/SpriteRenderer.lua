@@ -19,7 +19,7 @@ function SpriteRenderer:draw()
         local t = e:get("Transform")
         local sprite = e:get("Sprite")
 
-        love.graphics.draw(sprite.image, t.x, t.y, t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
+        love.graphics.draw(sprite.image, math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
     end
 end
 

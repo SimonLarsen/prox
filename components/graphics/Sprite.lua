@@ -23,8 +23,8 @@ function Sprite:initialize(animation)
     self.frames = xframes * yframes
     self.delay = animation.delay or math.huge
     self.loop = animation.loop ~= false
-    self.ox = animation.ox or (fw/2)
-    self.oy = animation.oy or (fh/2)
+    self.ox = animation.ox or math.floor(fw/2)
+    self.oy = animation.oy or math.floor(fh/2)
     self.sx = animation.sx or 1
     self.sy = animation.sy or 1
     self.speed = 1

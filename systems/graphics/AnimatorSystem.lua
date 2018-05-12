@@ -40,7 +40,7 @@ function AnimatorSystem:update(dt)
         for _, trans in pairs(anim.transitions) do
             if match_state(anim.state, trans.from) then
                 local prop = anim.properties[trans.property]
-                if trans.predicate and trans.predicate(prop.value, trans.value)
+                if trans.predicate and trans.predicate(prop.value)
                 or trans.predicate == nil and prop.value == trans.value then
                     change_state(e, anim, trans.to)
                 end

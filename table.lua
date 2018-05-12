@@ -23,6 +23,21 @@ function ptable.copy(t)
 	end
 end
 
+--- Returns deep copy of table.
+function ptable.deep_copy(t)
+    local copy
+    if type(t) == 'table' then
+        copy = {}
+        for k, v in next, t, nil do
+            copy[ptable.deep_copy(k)] = ptable.deep_copy(v)
+        end
+        setmetatable(copy, ptable.deep_copy(getmetatable(t)))
+    else
+        copy = t
+    end
+    return copy
+end
+
 --- Copies all entries in from into to.
 -- Does not perform deep copy of table entries.
 function ptable.copy_into(from, to)

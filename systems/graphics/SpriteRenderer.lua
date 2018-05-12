@@ -8,6 +8,25 @@ function SpriteRenderer:requires()
     return {"Sprite", "Transform"}
 end
 
+function SpriteRenderer:update(dt)
+    for _, e in pairs(self.targets) do
+        s = e:get("Sprite")
+        s.time = s.time + dt * s.speed
+        if s.time >= s.delay then
+            s.time = s.time - s.delay
+            s.frame = s.frame + 1
+            if s.frame > s.frames then
+                s.finished = true
+                if s.loop then
+                    s.frame = 1
+                else
+                    s.frame = s.frames
+                end
+            end
+        end
+    end
+end
+
 function SpriteRenderer:draw()
     local sorted = {}
     for i,v in pairs(self.targets) do
@@ -19,7 +38,7 @@ function SpriteRenderer:draw()
         local t = e:get("Transform")
         local sprite = e:get("Sprite")
 
-        love.graphics.draw(sprite.image, math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
+        love.graphics.draw(sprite.image, sprite.quads[sprite.frame], math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
     end
 end
 

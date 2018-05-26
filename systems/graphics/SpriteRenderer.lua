@@ -34,12 +34,17 @@ function SpriteRenderer:draw()
     end
     table.sort(sorted, function(a, b) return a:get("Transform").z > b:get("Transform").z end)
 
+    local _r, _g, _b, _a = love.graphics.getColor()
+
     for _,e in pairs(sorted) do
         local t = e:get("Transform")
         local sprite = e:get("Sprite")
 
+        love.graphics.setColor(sprite.color)
         love.graphics.draw(sprite.image, sprite.quads[sprite.frame], math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
     end
+
+    love.graphics.setColor(_r, _g, _b, _a)
 end
 
 return SpriteRenderer

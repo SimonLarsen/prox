@@ -12,4 +12,4 @@
 	url = https://github.com/lovetoys/lovetoys.git
 [submodule "tween"]
 	path = tween
-	url = https://github.com/kikito/tween.lua
+	url = https://github.com/SimonLarsen/tween.lua

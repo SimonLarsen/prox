@@ -27,7 +27,7 @@ function Sprite:initialize(animation)
     self.oy = animation.oy or math.floor(fh/2)
     self.sx = animation.sx or 1
     self.sy = animation.sy or 1
-    self.color = animation.color or {1,1,1}
+    self.color = animation.color or {1,1,1,1}
     self.speed = animation.speed or 1
 
     self:reset()

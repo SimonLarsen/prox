@@ -31,10 +31,11 @@ local prox = {
     window = require("prox.window"),
 
     -- Components
+    Animator = require("prox.components.graphics.Animator"),
+    RemoveAfterTime = require("prox.components.timing.RemoveAfterTime"),
+    Sprite = require("prox.components.graphics.Sprite"),
     Transform = require("prox.components.core.Transform"),
     Tween = require("prox.components.timing.Tween"),
-    Sprite = require("prox.components.graphics.Sprite"),
-    Animator = require("prox.components.graphics.Animator"),
 
     -- Input
     KeyboardBinding = require("prox.input.KeyboardBinding"),
@@ -48,6 +49,7 @@ function love.load()
     love.graphics.setLineStyle("rough")
     window.apply()
 
+    prox.engine:addSystem(require("prox.systems.timing.RemoveAfterTimeSystem")())
     prox.engine:addSystem(require("prox.systems.timing.TweenSystem")())
     local sprite_renderer = require("prox.systems.graphics.SpriteRenderer")()
     prox.engine:addSystem(sprite_renderer, "update")

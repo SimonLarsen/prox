@@ -32,6 +32,7 @@ local prox = {
 
     -- Components
     Animator = require("prox.components.graphics.Animator"),
+    Camera = require("prox.components.core.Camera"),
     RemoveAfterTime = require("prox.components.timing.RemoveAfterTime"),
     Sprite = require("prox.components.graphics.Sprite"),
     Text = require("prox.components.graphics.Text"),
@@ -97,6 +98,24 @@ function love.run()
 
         if love.graphics.isActive() then
             love.graphics.origin()
+
+            local camera = nil
+            for i,e in pairs(prox.engine:getEntitiesWithComponent("Camera")) do
+                if e:get("Camera").main then
+                    camera = e
+                    break
+                end
+            end
+
+            if camera then
+                local t = camera:get("Transform")
+                local c = camera:get("Camera")
+                love.graphics.translate(
+                     prox.window.getWidth()/2 - t.x * c.zoom,
+                    prox.window.getHeight()/2 - t.y * c.zoom
+                )
+                love.graphics.scale(c.zoom, c.zoom)
+            end
 
             love.graphics.clear()
             love.graphics.setCanvas(window._getCanvas())

@@ -5,11 +5,11 @@ function SpriteRenderer:initialize()
 end
 
 function SpriteRenderer:requires()
-    return {"Sprite", "Transform"}
+    return {sprite={"Sprite", "Transform"}, text={"Text", "Transform"}}
 end
 
 function SpriteRenderer:update(dt)
-    for _, e in pairs(self.targets) do
+    for _, e in pairs(self.targets.sprite) do
         s = e:get("Sprite")
         s.time = s.time + dt * s.speed
         if s.time >= s.delay then
@@ -29,7 +29,10 @@ end
 
 function SpriteRenderer:draw()
     local sorted = {}
-    for i,v in pairs(self.targets) do
+    for i,v in pairs(self.targets.sprite) do
+        table.insert(sorted, v)
+    end
+    for i,v in pairs(self.targets.text) do
         table.insert(sorted, v)
     end
     table.sort(sorted, function(a, b) return a:get("Transform").z > b:get("Transform").z end)
@@ -38,10 +41,15 @@ function SpriteRenderer:draw()
 
     for _,e in pairs(sorted) do
         local t = e:get("Transform")
-        local sprite = e:get("Sprite")
-
-        love.graphics.setColor(sprite.color)
-        love.graphics.draw(sprite.image, sprite.quads[sprite.frame], math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
+        if e:has("Sprite") then
+            local sprite = e:get("Sprite")
+            love.graphics.setColor(sprite.color)
+            love.graphics.draw(sprite.image, sprite.quads[sprite.frame], math.floor(t.x+0.5), math.floor(t.y+0.5), t.r, sprite.sx, sprite.sy, sprite.ox, sprite.oy)
+        elseif e:has("Text") then
+            local text = e:get("Text")
+            love.graphics.setColor(text.color)
+            love.graphics.printf(text.text, math.floor(t.x-text.width/2+0.5), math.floor(t.y+0.5), text.width, text.align, text.r, text.sx, text.sy, text.ox, text.oy)
+        end
     end
 
     love.graphics.setColor(_r, _g, _b, _a)

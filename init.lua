@@ -34,6 +34,7 @@ local prox = {
     Animator = require("prox.components.graphics.Animator"),
     RemoveAfterTime = require("prox.components.timing.RemoveAfterTime"),
     Sprite = require("prox.components.graphics.Sprite"),
+    Text = require("prox.components.graphics.Text"),
     Transform = require("prox.components.core.Transform"),
     Tween = require("prox.components.timing.Tween"),
 

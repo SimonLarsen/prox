@@ -122,6 +122,8 @@ function love.run()
             love.graphics.clear()
 
             prox.engine:draw()
+
+            love.graphics.origin()
             prox.gui.draw()
 
             love.graphics.setCanvas()

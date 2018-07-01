@@ -33,6 +33,7 @@ local prox = {
     -- Components
     Animator = require("prox.components.graphics.Animator"),
     Camera = require("prox.components.core.Camera"),
+    Keyframes = require("prox.components.timing.Keyframes"),
     RemoveAfterTime = require("prox.components.timing.RemoveAfterTime"),
     Sprite = require("prox.components.graphics.Sprite"),
     Text = require("prox.components.graphics.Text"),
@@ -53,6 +54,7 @@ function love.load()
 
     prox.engine:addSystem(require("prox.systems.timing.RemoveAfterTimeSystem")())
     prox.engine:addSystem(require("prox.systems.timing.TweenSystem")())
+    prox.engine:addSystem(require("prox.systems.timing.KeyframeSystem")())
     local sprite_renderer = require("prox.systems.graphics.SpriteRenderer")()
     prox.engine:addSystem(sprite_renderer, "update")
     prox.engine:addSystem(sprite_renderer, "draw")

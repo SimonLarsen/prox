@@ -120,7 +120,7 @@ function love.run()
             end
 
             love.graphics.clear()
-            love.graphics.setCanvas(window._getCanvas())
+            love.graphics.setCanvas{window._getCanvas(), stencil=true}
             love.graphics.clear()
 
             prox.engine:draw()
